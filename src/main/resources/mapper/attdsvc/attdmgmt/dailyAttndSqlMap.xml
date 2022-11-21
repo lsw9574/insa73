@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.attdsvc.attdmgmt.mapper.DailyAttndMapper">
+
+    <resultMap type="kr.co.seoulit.insa.attdsvc.attdmgmt.to.DayAttdTO" id="dayAttdResult">
+        <result property="empCode" column="EMP_CODE"/>
+        <result property="dayAttdCode" column="DAY_ATTD_CODE"/>
+        <result property="applyDay" column="APPLY_DAY"/>
+        <result property="attdTypeCode" column="ATTD_TYPE_CODE"/>
+        <result property="empName" column="EMP_NAME"/>
+        <result property="attdTypeName" column="ATTD_TYPE_NAME"/>
+        <result property="time" column="TIME"/>
+    </resultMap>
+
+    <select id="selectDayAttdList" parameterType="String" resultMap="dayAttdResult">
+        SELECT D.EMP_CODE
+             , E.EMP_NAME
+             , D.DAY_ATTD_CODE
+             , TO_CHAR(D.APPLY_DAY, 'YYYY/MM/DD') APPLY_DAY
+             , D.ATTD_TYPE_CODE
+             , D.ATTD_TYPE_NAME
+             , D.TIME
+        FROM DAY_ATTD D
+           , EMP E
+        WHERE D.EMP_CODE = #{empCode}
+          AND D.APPLY_DAY = TO_DATE(#{applyDay}, 'YYYY-MM-DD')
+          AND D.EMP_CODE = E.EMP_CODE
+        ORDER BY D.TIME
+    </select>
+
+    <insert id="insertDayAttd" parameterType="kr.co.seoulit.insa.attdsvc.attdmgmt.to.DayAttdTO">
+        INSERT INTO DAY_ATTD
+        VALUES ( #{empCode}
+               , DAY_ATTD_CODE_SEQ.NEXTVAL
+               , #{applyDay}
+               , #{attdTypeCode}
+               , #{attdTypeName}
+               , #{time})
+    </insert>
+
+    <delete id="deleteDayAttd" parameterType="kr.co.seoulit.insa.attdsvc.attdmgmt.to.DayAttdTO">
+        DELETE
+        FROM DAY_ATTD
+        WHERE EMP_CODE = #{empCode}
+          AND DAY_ATTD_CODE = #{dayAttdCode}
+    </delete>
+
+    <parameterMap type="map" id="dayAttdInsertParameter">
+        <parameter property="empCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+        <parameter property="attdTypeCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+        <parameter property="attdTypeName" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+        <parameter property="applyDay" jdbcType="DATE" javaType="java.lang.String" mode="IN"/>
+        <parameter property="time" jdbcType="NUMERIC" javaType="java.lang.String" mode="IN"/>
+        <parameter property="errorCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+        <parameter property="errorMsg" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+    </parameterMap>
+    <select id="batchInsertDayAttd" parameterMap="dayAttdInsertParameter" statementType="CALLABLE">
+		<![CDATA[
+        {call P_INSERT_DAY_ATTD(?, DAY_ATTD_CODE_SEQ.NEXTVAL, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?)}
+        ]]>
+
+	</select>
+
+</mapper>

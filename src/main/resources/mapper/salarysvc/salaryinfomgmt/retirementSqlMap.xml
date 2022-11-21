@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.salarysvc.salaryinfomgmt.mapper.RetirementSalMapper">
+	
+	
+	<resultMap type="kr.co.seoulit.insa.salarysvc.salaryinfomgmt.to.RetirementSalaryTO" id="retirementSalaryListResult">
+		<result property="position" column="POSITION" />
+		<result property="empname" column="EMP_NAME" />
+		<result property="empcode" column="EMP_CODE" />
+		<result property="hiredate" column="HIREDATE" />
+		<result property="settlementdate" column="SETTLEMENT_DATE" />
+		<result property="workingdate" column="WORKING_DATE" />
+		<result property="retirementsalary" column="RETIREMENT_SALARY" />
+	</resultMap>
+
+	<select id="selectretirementSalaryList" parameterType="String" resultMap="retirementSalaryListResult">
+		<![CDATA[
+			SELECT P.POSITION, e.EMP_NAME , e.EMP_CODE  , TO_CHAR(w.HIREDATE, 'yyyy-mm-dd' ) HIREDATE
+			, TO_CHAR(SYSDATE, 'yyyy-mm-dd') SETTLEMENT_DATE
+			, TRUNC(SYSDATE - w.HIREDATE) WORKING_DATE
+			, round( p.BASE_SALARY *  (SYSDATE - w.HIREDATE) /365 , -1) RETIREMENT_SALARY
+			FROM EMP e , POSITION p , WORK_INFO w
+			WHERE e.POSITION_CODE = p.POSITION_CODE
+			AND e.EMP_CODE=w.EMP_CODE
+			AND SYSDATE>=w.HIREDATE+365
+			AND e.EMP_CODE=#{empCode}
+		]]>
+	</select>
+		
+		
+</mapper>

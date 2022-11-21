@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.mapper.LicenseInfoMapper">
+
+	
+	<resultMap type="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.LicenseInfoTO" id="licenseInfoResult">
+		<result property="empCode" column="L_EMP_CODE" />
+		<result property="licenseCode" column="LICENSE_CODE" />
+		<result property="licenseName" column="LICENSE_NAME" />
+		<result property="getDate" column="GET_DATE" />
+		<result property="expireDate" column="EXPIRE_DATE" />
+		<result property="licenseLevel" column="LICENSE_LEVEL" />
+		<result property="licenseCenter" column="LICENSE_CENTER" />
+		<result property="issueNumber" column="ISSUE_NUMBER" />
+	</resultMap>
+
+
+	<select id="selectLicenseList" parameterType="string" resultMap="licenseInfoResult">
+		SELECT LICENSE_CODE
+		, LICENSE_NAME
+		, LICENSE_LEVEL
+		, LICENSE_CENTER
+		, ISSUE_NUMBER
+		, EMP_CODE AS L_EMP_CODE
+		, to_char(get_date, 'YYYY/MM/DD') GET_DATE
+		, to_char(expire_date,'YYYY/MM/DD') EXPIRE_DATE
+		FROM LICENSE_INFO 
+		WHERE EMP_CODE = #{empCode}
+	</select>
+	
+	
+	<insert id="insertLicenseInfo" parameterType="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.LicenseInfoTO">
+		INSERT INTO LICENSE_INFO VALUES 
+		(#{empCode}
+		, LICENSE_CODE_SEQ.NEXTVAL
+		, #{licenseName}
+		, TO_DATE(#{getDate}, 'YYYY/MM/DD')
+		, TO_DATE(#{expireDate}, 'YYYY/MM/DD')
+		, #{licenseLevel}
+		, #{licenseCenter}
+		, #{issueNumber})
+	</insert>
+	
+	
+	<update id="updateLicenseInfo" parameterType="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.LicenseInfoTO">
+		UPDATE LICENSE_INFO SET
+		LICENSE_NAME= #{licenseName}
+		, GET_DATE = TO_DATE(#{getDate}, 'YYYY/MM/DD')
+		, EXPIRE_DATE = TO_DATE(#{expireDate}, 'YYYY/MM/DD')
+		, LICENSE_LEVEL = #{licenseLevel}
+		, LICENSE_CENTER = #{licenseCenter}
+		, ISSUE_NUMBER = #{issueNumber}
+		WHERE EMP_CODE = #{empCode}
+		AND LICENSE_CODE = #{licenseCode}
+	</update>
+	
+	
+	<delete id="deleteLicenseInfo" parameterType="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.LicenseInfoTO">
+		DELETE FROM LICENSE_INFO 
+		WHERE EMP_CODE = #{empCode}
+		AND LICENSE_CODE = #{licenseCode}
+	</delete>
+	
+	
+</mapper>

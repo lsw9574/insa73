@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.commsvc.foudinfomgmt.mapper.DeptMapper" >
+	
+	
+	<resultMap type="kr.co.seoulit.insa.commsvc.foudinfomgmt.to.DeptTO" id="deptResult">
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="deptTel" column="DEPT_TEL"/>
+	</resultMap>
+	
+	
+	<select id="selectDeptList" resultMap="deptResult">
+	  SELECT DEPT_CODE
+	  , DEPT_NAME
+	  , DEPT_TEL
+	  FROM DEPT
+	  ORDER BY DEPT_CODE
+	</select>
+	
+	
+	<update id="updateDept" parameterType="kr.co.seoulit.insa.commsvc.foudinfomgmt.to.DeptTO">
+	  UPDATE DEPT SET
+	  DEPT_NAME = #{deptName}
+	  , DEPT_TEL = #{deptTel}
+	  WHERE DEPT_CODE = #{deptCode}
+	</update>
+	
+	
+	<insert id="registDept" parameterType="kr.co.seoulit.insa.commsvc.foudinfomgmt.to.DeptTO">
+		INSERT INTO DEPT VALUES(
+		#{deptCode}
+		, #{deptName}
+		, #{deptTel}
+		)
+	</insert>
+	
+	
+	<delete id="deleteDept" parameterType="kr.co.seoulit.insa.commsvc.foudinfomgmt.to.DeptTO">
+		DELETE DEPT WHERE
+		DEPT_CODE = #{deptCode}
+	</delete>
+	
+	
+</mapper>

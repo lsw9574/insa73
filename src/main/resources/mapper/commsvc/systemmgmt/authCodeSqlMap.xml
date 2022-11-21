@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.commsvc.systemmgmt.mapper.AuthCodeMapper">
+	
+	<resultMap type="kr.co.seoulit.insa.commsvc.systemmgmt.to.AdminCodeTO" id="adminCodeResult">
+		<result property="admin_code" column="admin_code" />
+		<result property="admin_authority" column="admin_authority" />
+	</resultMap>
+	
+	<resultMap type="kr.co.seoulit.insa.commsvc.systemmgmt.to.AdminCodeTO" id="authAdminCodeResult">
+		<result property="admin_code" column="admin_code" />
+		<result property="admin_authority" column="admin_authority" />
+		<result property="authority" column="authority" />
+	</resultMap>
+	
+	
+	<select id="selectAdminCodeList" resultMap="adminCodeResult">
+		<![CDATA[ select * from admin_code where admin_code not in('AD_00','AD_01') ]]>
+    </select>
+    
+    
+    <select id="selectAuthAdminCodeList" parameterType="String" resultMap="authAdminCodeResult">
+		<![CDATA[
+				SELECT AC.*, DECODE( A.AUTHORITY , NULL , 0, 1) AS AUTHORITY
+	            FROM (
+	             		SELECT *
+	               		FROM ADMIN_CODE 
+	             		WHERE ADMIN_CODE NOT IN( 'AD_00', 'AD_01' )
+	             	) AC , 
+	              	(
+	              	 SELECT AUTHORITY 
+	             	 FROM EMP 
+	              	 WHERE EMP_CODE= #{empCode}  ) A  
+	             	 WHERE AC.ADMIN_CODE = A.AUTHORITY(+)  
+	             	 ORDER BY AC.ADMIN_CODE 
+		]]>
+    </select>
+    
+    
+     <update id="updateAuthority" parameterType="map">
+		<![CDATA[ 
+				  UPDATE EMP SET AUTHORITY = #{adminCode} 
+			      WHERE EMP_CODE = #{empCode} 
+		]]>
+    </update>
+    
+
+</mapper>

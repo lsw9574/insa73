@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.newempsvc.newempinfomgmt.mapper.NewEmpMapper">
+
+    <resultMap type="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.NewResumeTO" id="findresumeList">
+        <result property="p_code" column="P_CODE"/>
+        <result property="p_name" column="P_NAME"/>
+        <result property="p_age" column="P_AGE"/>
+        <result property="p_gender" column="P_GENDER"/>
+        <result property="p_address" column="P_ADDRESS"/>
+        <result property="p_tel" column="P_TEL"/>
+        <result property="p_email" column="P_EMAIL"/>
+        <result property="p_dept" column="P_DEPT"/>
+        <result property="p_last_school" column="P_LAST_SCHOOL"/>
+        <result property="p_career" column="P_CAREER"/>
+    </resultMap>
+
+    <resultMap type="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.PersonalityInterviewTO" id="pinewempList">
+        <result property="p_code" column="P_CODE"/>
+        <result property="p_name" column="P_NAME"/>
+        <result property="p_age" column="P_AGE"/>
+        <result property="p_challenge" column="P_CHALLENGE"/>
+        <result property="p_creativity" column="P_CREATIVITY"/>
+        <result property="p_passion" column="P_PASSION"/>
+        <result property="p_cooperation" column="P_COOPERATION"/>
+        <result property="p_globalmind" column="P_GLOBALMIND"/>
+        <result property="i_attitude" column="I_ATTITUDE"/>
+        <result property="i_scrupulosity" column="I_SCRUPULOSITY"/>
+        <result property="i_reliability" column="I_RELIABILITY"/>
+        <result property="i_creativity" column="I_CREATIVITY"/>
+        <result property="i_positiveness" column="I_POSITIVENESS"/>
+    </resultMap>
+
+    <select id="findresumeList" parameterType="map" statementType="CALLABLE">
+		<![CDATA[
+        {call RESUME_CONDITION(
+                #{year, jdbcType=INTEGER , javaType=java.lang.Integer, mode=IN},
+                #{half, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+                #{result, jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT , resultMap=findresumeList}
+            )}
+        ]]>
+   </select>
+
+    <select id="findPInewempList" resultMap="pinewempList">
+        SELECT ner.P_NAME,
+               ner.P_AGE,
+               ner.P_CODE,
+               pi.I_ATTITUDE,
+               pi.I_CREATIVITY,
+               pi.I_POSITIVENESS,
+               pi.I_RELIABILITY,
+               pi.I_SCRUPULOSITY,
+               pi.P_CHALLENGE,
+               pi.P_COOPERATION,
+               pi.P_CREATIVITY,
+               pi.P_GLOBALMIND,
+               pi.P_PASSION
+        FROM PERSONALITY_INTERVIEW pi,
+             NEW_EMP_RESUME ner
+        WHERE pi.P_CODE = ner.P_CODE
+          AND ner.year = #{year}
+          AND ner.half = #{half}
+    </select>
+
+    <update id="UpdateResumeNewemp" parameterType="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.NewResumeTO">
+        UPDATE NEW_EMP_RESUME
+        SET P_NAME        = #{p_name},
+            P_AGE         = #{p_age},
+            P_GENDER      = #{p_gender},
+            P_ADDRESS     = #{p_address},
+            P_TEL         = #{p_tel},
+            P_EMAIL       = #{p_email},
+            P_DEPT        = #{p_dept},
+            P_LAST_SCHOOL = #{p_last_school},
+            P_CAREER      = #{p_career}
+        WHERE P_CODE = #{p_code}
+
+    </update>
+
+    <select id="produceNewcode" parameterType="Map" resultType="String">
+        SELECT TO_CHAR(P_CODE + 1)
+        FROM NEW_EMP_RESUME
+        WHERE P_CODE LIKE TO_CHAR(#{year}) || TO_CHAR(#{half}) || '%'
+          AND ROWNUM = 1
+        ORDER BY P_CODE desc
+    </select>
+
+    <select id="insertNewcode" parameterType="Map" resultType="String">
+        SELECT TO_CHAR(#{year}) || TO_CHAR(#{half}) || '0001' AS P_CODE
+        FROM DUAL
+    </select>
+
+    <insert id="InsertResume" parameterType="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.NewResumeTO">
+   <![CDATA[
+        INSERT INTO NEW_EMP_RESUME
+        (YEAR,
+         HALF,
+         P_CODE,
+         P_NAME,
+         P_AGE,
+         P_GENDER,
+         P_ADDRESS,
+         P_TEL,
+         P_EMAIL,
+         P_DEPT,
+         P_LAST_SCHOOL,
+         P_CAREER)
+        SELECT #{year},
+               #{half},
+               #{p_code},
+               #{p_name},
+               #{p_age},
+               #{p_gender},
+               #{p_address},
+               #{p_tel},
+               #{p_email},
+               #{p_dept},
+               #{p_last_school},
+               #{p_career}
+        FROM (SELECT
+                  YEAR, HALF
+              FROM
+                  TERMS_EMP
+              WHERE
+                  ( YEAR = #{year}
+                AND HALF = #{half} )
+                AND
+                  ( MIN_AGE <= #{p_age}
+                AND MAX_AGE >= #{p_age} )
+                AND
+                  ( DEPT = #{p_dept}
+                 OR DEPT = '무관' )
+                AND
+                  (
+                  DECODE( #{p_last_school}
+                  , '초졸'
+                  , 1
+                  , '중졸'
+                  , 2
+                  , '고졸'
+                  , 3
+                  , '2년제대학'
+                  , 4
+                  , '4년제대학'
+                  , 5
+                  , 0 )
+                  >=
+                  DECODE( LAST_SCHOOL
+                  , '초졸'
+                  , 1
+                  , '중졸'
+                  , 2
+                  , '고졸'
+                  , 3
+                  , '2년제대학'
+                  , 4
+                  , '4년제대학'
+                  , 5
+                  , 0 )
+                  ))
+        ]]>
+   </insert>
+
+    <insert id="InsertPI" parameterType="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.PersonalityInterviewTO">
+        INSERT INTO PERSONALITY_INTERVIEW
+        (P_CODE,
+         P_CHALLENGE,
+         P_CREATIVITY,
+         P_PASSION,
+         P_COOPERATION,
+         P_GLOBALMIND,
+         I_ATTITUDE,
+         I_SCRUPULOSITY,
+         I_RELIABILITY,
+         I_CREATIVITY,
+         I_POSITIVENESS)
+        SELECT #{p_code},
+               #{p_challenge},
+               #{p_creativity},
+               #{p_passion},
+               #{p_cooperation},
+               #{p_globalmind},
+               #{i_attitude},
+               #{i_scrupulosity},
+               #{i_reliability},
+               #{i_creativity},
+               #{i_positiveness}
+        FROM (SELECT P_CODE FROM NEW_EMP_RESUME WHERE P_CODE = #{p_code})
+    </insert>
+
+</mapper>

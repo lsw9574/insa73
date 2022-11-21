@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.mapper.SocialInsMapper">
+
+	
+	<resultMap type="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.to.SocialInsTO" id="socialInsResult">
+		<result property="attributionYear" column="ATTRIBUTION_YEAR" />
+		<result property="healthinsureRates" column="HEALTH_INSURE_RATES" />
+		<result property="longtermcareRates" column="LONG_TERM_CARE_RATE" />
+		<result property="nationpenisionRates" column="NATION_PENISION_RATES" />
+		<result property="teachpenisionRates" column="TEACH_PENISION_RATES" />
+		<result property="empinsureRates" column="EMP_INSURE_RATES" />
+		<result property="wrkinsureRates" column="WRK_INSURE_RATES" />
+		<result property="jobstabilRates" column="JOBSTABIL_RATES" />
+		<result property="vocacompetencyRates" column="VOCA_COMPETENCY_RATES" />
+		<result property="industinsureRates" column="INDUST_INSURE_RATES" />
+		<result property="industinsurecharRates" column="INDUST_INSURE_CHAR_RATES" />
+	</resultMap>
+
+
+	<select id="selectBaseInsureList" parameterType="map" statementType="CALLABLE">
+      <![CDATA[
+           {call P_INSURE_SELECT(
+           #{yearBox, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+           , #{result, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=socialInsResult}
+           )
+       ]]>
+	</select>
+
+
+	<update id="updateInsureData" parameterType="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.to.SocialInsTO">
+	  <![CDATA[
+	    {call P_INSURE_UPDATE(
+	    #{attributionYear, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+	    #{healthinsureRates, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+	    #{longtermcareRates, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+	    #{nationpenisionRates, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+	    #{teachpenisionRates, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+	    #{empinsureRates, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+	    #{wrkinsureRates, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+	    #{jobstabilRates, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+	    #{vocacompetencyRates, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+	    #{industinsureRates, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+	    #{industinsurecharRates, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN}
+	    )}
+	  ]]> 
+	</update>
+
+
+	<delete id="deleteInsureData" parameterType="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.to.SocialInsTO">
+	<![CDATA[
+		DELETE FROM SOCIAL_INSURE_RATIO
+		WHERE 1=1 
+		AND ATTRIBUTION_YEAR = #{attributionYear}
+		]]>
+	</delete>
+
+</mapper>

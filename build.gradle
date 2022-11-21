@@ -1,0 +1,78 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'war'
+}
+
+group = 'kr.co.seoulit.insa'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.3'
+    implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.16'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '21.1.0.0'
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+
+    implementation 'commons-io:commons-io:2.8.0'
+    implementation 'commons-fileupload:commons-fileupload:1.4'
+
+    implementation('org.apache.tomcat.embed:tomcat-embed-jasper')
+    implementation('javax.servlet:jstl:1.2')
+    implementation group: 'opensymphony', name: 'sitemesh', version: '2.4.2'
+    implementation group: 'org.sitemesh', name: 'sitemesh', version: '3.0.1'
+    implementation group: 'org.springframework.security', name: 'spring-security-taglibs'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    implementation group: 'net.sf.json-lib', name: 'json-lib-ext-spring', version: '1.0.2'
+    implementation group: 'aspectj', name: 'aspectjrt', version: '1.5.3'
+    implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.6.8'
+    implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.1'
+    implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '5.5.1'
+    implementation group: 'com.lowagie', name: 'itext', version: '2.1.7'
+    implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.0.6'
+    implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
+    implementation group: 'javax.mail', name: 'mail', version: '1.4'
+    implementation group: 'org.apache.poi', name: 'poi', version: '3.16'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.16'
+    implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.6.0'
+    implementation group: 'org.aspectj', name: 'aspectjrt', version: '1.9.4'
+    implementation group: 'com.oracle.ojdbc', name: 'orai18n', version: '19.3.0.0'
+}
+bootWar {
+    archiveFileName = 'ROOT.war'
+}
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+

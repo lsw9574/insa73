@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.salarysvc.salaryinfomgmt.mapper.SalaryBonusMapper">
+
+
+	<resultMap type="kr.co.seoulit.insa.salarysvc.salaryinfomgmt.to.SalaryBonusTO" id="bonusSalaryResult">
+		<result property="position" column="POSITION" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="empCode" column="EMP_CODE" />
+		<result property="deptCode" column="DEPT_CODE" />
+		<result property="baseSalary" column="BASE_SALARY" />
+		<result property="awardsSalary" column="AWARDS_SALARY" />
+		<result property="grade" column="GRADE" />
+	</resultMap>
+
+
+	<select id="selectBonusSalary" parameterType="String" resultMap="bonusSalaryResult">
+		<![CDATA[
+				SELECT
+         		EMP_CODE ,
+         		EMP_NAME ,
+         		DEPT_CODE ,
+         		POSITION ,
+         		BASE_SALARY ,
+         		BASE_SALARY AS AWARDS_SALARY,
+         		GRADE 
+				FROM EMP_eval e, POSITION po WHERE po.POSITION = e.POSITION_CODE AND e.EMP_CODE = #{empCode}
+		]]>
+	</select>
+		
+		
+</mapper>

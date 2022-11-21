@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="retirement" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f144d054-9af2-4d89-b868-e57b6f49fcf1">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="702"/>
+	<parameter name="empName" class="java.lang.String"/>
+	<parameter name="deptName" class="java.lang.String"/>
+	<parameter name="birthdate" class="java.lang.String"/>
+	<parameter name="position" class="java.lang.String"/>
+	<parameter name="address" class="java.lang.String"/>
+	<parameter name="retirementRange" class="java.lang.String"/>
+	<parameter name="hiredate" class="java.lang.String"/>
+	<parameter name="retiredate" class="java.lang.String"/>
+	<parameter name="retirementPayCheckDate" class="java.lang.String"/>
+	<parameter name="retirementPayDate" class="java.lang.String"/>
+	<parameter name="retirementPay" class="java.lang.String"/>
+	<parameter name="workplaceName" class="java.lang.String"/>
+	<parameter name="workplaceAddress" class="java.lang.String"/>
+	<parameter name="today" class="java.lang.String"/>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="79" uuid="b9438f32-bcd6-4868-adc0-78726108f85b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="30" isBold="true" pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[퇴직금 영수증]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="717" splitType="Stretch">
+			<rectangle>
+				<reportElement x="58" y="20" width="80" height="120" uuid="a258dfd8-c078-488f-84b3-47505ca48250"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="138" y="20" width="70" height="40" uuid="737ecd9f-eb17-47ba-9da4-107ef38ec9ff"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="58" y="140" width="80" height="40" uuid="3fce4677-6809-43a8-8994-20e946a91b75"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="138" y="140" width="360" height="40" uuid="c295ba5d-8e61-4b52-b212-3e654e90bf30"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="58" y="180" width="80" height="40" uuid="df9986e6-b6b2-41ca-805b-fc451c17fda0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="208" y="20" width="110" height="40" uuid="d9df6838-211a-49c8-9c3f-2afb88cd0218"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="138" y="60" width="70" height="40" uuid="85fa8fae-d30a-4a51-8773-33cd9c1295fe"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="138" y="100" width="70" height="40" uuid="093d4239-973a-46da-b67b-509e18585636"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="318" y="20" width="70" height="40" uuid="bea90644-4e04-471f-b6af-d66d14c5ad9c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="318" y="60" width="70" height="40" uuid="5b89f008-0f0b-4222-b6b4-7345ac2c1c3c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="208" y="60" width="110" height="40" uuid="c0fd05db-d9f7-436b-91da-64bca04bf9ae"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="208" y="100" width="290" height="40" uuid="032ad80c-e75b-45b1-b9c0-659877da37a7"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="388" y="20" width="110" height="40" uuid="9557eadd-8ece-4a1c-88ac-87071db45198"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="388" y="60" width="110" height="40" uuid="4064d7cc-e772-40ce-a140-03f3fa8d06e2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="138" y="180" width="140" height="40" uuid="940d94b3-e007-42be-84dc-2ec133057fe0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="278" y="180" width="80" height="40" uuid="1d6771e9-42ba-4e63-a4ba-233bab50755e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="358" y="180" width="140" height="40" uuid="e5522349-c254-443f-82fd-bd2596f2bf7f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="358" y="220" width="140" height="40" uuid="3402715a-9a73-4dc8-980f-d8d4b58bcd01"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="278" y="220" width="80" height="40" uuid="67339950-deed-4523-b7f8-050a628bb551"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="58" y="220" width="80" height="40" uuid="b7269dc3-0831-4692-9a09-2bf4671e1abc"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="138" y="220" width="140" height="40" uuid="c457a02e-e852-4fb9-b47d-e3c655cdb2b8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="58" y="260" width="80" height="40" uuid="e5683334-6869-4bb6-b4a9-9486f52b0555"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="138" y="260" width="360" height="40" uuid="34a9f18b-3f6f-4f41-9d99-dc0cb643eaac"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="58" y="300" width="80" height="40" uuid="32b4e547-3831-4b77-ac09-4fef80319952"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="138" y="300" width="360" height="40" uuid="984c2ee5-fa8f-4560-9d92-865620cb6b54"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="376" width="555" height="32" uuid="ccd363ae-87fa-4ef6-b1d3-0d57132fa723"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[위의 퇴직금을 정산하여 지급하였음을 증명합니다.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="20" width="80" height="120" uuid="f572411b-a26d-430e-abe7-4bcda0cc0071"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[인적사항]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="20" width="70" height="40" uuid="40e81ddd-bca6-4655-b674-afcee3934e0c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[성명]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="60" width="70" height="40" uuid="8899d2e2-3a51-49ab-aba4-6b0228bcbb35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[생년월일]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="100" width="70" height="40" uuid="e5563730-54f4-4888-9fdc-bfd4f3fe6d10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[주소]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="318" y="20" width="70" height="40" uuid="46d9e12d-0706-4b15-a308-90f4094e1b48"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[부서]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="318" y="60" width="70" height="40" uuid="2fe98e88-2348-41e0-b5d8-4839fcca4b76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[직급]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="140" width="80" height="40" uuid="f0c1bcc3-b91b-4ced-9be8-50c70e233766"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[산정기간]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="180" width="80" height="40" uuid="a88149e6-5f44-4870-b8ed-899150fdee52"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[입사일]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="220" width="80" height="40" uuid="6578146b-578d-4519-a57d-a285ec35fa39"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[퇴직금정산일]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="180" width="80" height="40" uuid="0c10ec0e-f116-414b-a799-c2fe012729f4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[퇴사일]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="220" width="80" height="40" uuid="a5c977df-1fb8-4b49-9a02-656bce9fa475"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[퇴직금지급일]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="260" width="80" height="40" uuid="5a346862-1e51-40d7-be7a-8a71f9e65916"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[퇴직금]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="300" width="80" height="40" uuid="75477106-be7e-47c5-8f8e-4e1b57dbd902"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[소재지]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="208" y="20" width="110" height="40" uuid="daf8b29f-1c41-4fbb-a015-7237dbe640f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="388" y="20" width="110" height="40" uuid="4fd121c6-7015-414d-9347-738a96b4e73c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isStrikeThrough="false" pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{deptName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="60" width="110" height="40" uuid="5f9ad053-6865-408f-ad86-2328204e797f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{birthdate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="388" y="60" width="110" height="40" uuid="1a2810e3-90c2-45e8-ae20-0842e9770f5c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{position}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="100" width="290" height="40" uuid="42ca845f-7c73-4f48-b062-828212b898c7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="140" width="360" height="40" uuid="07e9e7ad-dfe6-4033-b9b9-a0d25c78dbaa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{retirementRange}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="180" width="140" height="40" uuid="40a8365e-4413-4ecb-a949-7d09278a57ca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hiredate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="180" width="140" height="40" uuid="0ecfe862-ae29-4093-8188-bbdaa370c69b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{retiredate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="220" width="140" height="40" uuid="fabe67f0-220f-48dc-9284-244463708362"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{retirementPayCheckDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="220" width="140" height="40" uuid="0351577a-e865-4ca0-a8a0-6a9cfb8234ea"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{retirementPayDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="260" width="360" height="40" uuid="70eb9234-9888-45c1-af9a-7a9be27a222b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{retirementPay}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="300" width="360" height="40" uuid="f007e172-2cfb-4ad6-ade0-8f63dca6233a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{workplaceAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="278" y="536" width="110" height="20" uuid="ae8d507b-b9b1-49f5-8874-27fd67c6bdd5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="536" width="278" height="20" uuid="a9bff114-f506-4b1b-929c-a3c6fd0012af"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[성	명	:	]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="460" width="555" height="20" uuid="fa471101-d64f-45ac-9f89-6587ce2797f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{today}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="650" width="555" height="49" uuid="9508e112-fc6d-4f02-a07f-c6fd407c20a6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="15" isBold="true" pdfFontName="HYGSRB.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{workplaceName}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="341" y="650" width="47" height="49" uuid="a40f2b5b-8b1e-46d4-8e33-86e470d9a01b"/>
+				<imageExpression><![CDATA["C:\\Users\\lsw95\\project\\insa73\\src\\main\\webapp\\report\\KakaoTalk_20181107_092023166.png"]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

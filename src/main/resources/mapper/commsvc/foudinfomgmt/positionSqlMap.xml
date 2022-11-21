@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.commsvc.foudinfomgmt.mapper.PositionMapper">
+	
+	
+	<resultMap type="kr.co.seoulit.insa.commsvc.foudinfomgmt.to.PositionTO" id="positionResult">
+		<result property="positionCode" column="POSITION_CODE"/>
+		<result property="position" column="POSITION"/>
+		<result property="basesalary" column="BASE_SALARY"/>
+		<result property="hobongratio" column="HOBONG_RATIO"/>
+	</resultMap>
+
+	
+	<select id="selectPositonList" resultMap="positionResult">
+	  SELECT  POSITION_CODE
+	         , POSITION
+	         , BASE_SALARY
+	         , HOBONG_RATIO
+	  FROM POSITION
+	  ORDER BY POSITION_CODE
+	</select>
+
+	
+	<update id="updatePosition" parameterType="kr.co.seoulit.insa.commsvc.foudinfomgmt.to.PositionTO">
+	  UPDATE POSITION SET
+	  POSITION = #{position}
+	  WHERE POSITION_CODE = #{positionCode}
+	</update>
+
+	
+	<insert id="insertPosition" parameterType="kr.co.seoulit.insa.commsvc.foudinfomgmt.to.PositionTO">
+		INSERT INTO POSITION VALUES(
+		#{positionCode}
+		, #{position})
+	</insert>
+	
+	
+	<delete id="deletePosition" parameterType="kr.co.seoulit.insa.commsvc.foudinfomgmt.to.PositionTO">
+		DELETE POSITION WHERE
+		POSITION_CODE = #{positionCode}
+		AND POSITION = #{position}
+	</delete>
+	
+	
+</mapper>

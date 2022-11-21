@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.retirementsvc.retirementmgmt.mapper.RetirementSetMgmtMapper">
+    <resultMap type="kr.co.seoulit.insa.retirementsvc.retirementmgmt.to.RetirementSetMgmtTO" id="retirementSetMgmtResult">
+        <result property="moelCheck" column="MOEL_CHECK"/>
+        <result property="moelCheckCode" column="MOEL_CHECK_CODE"/>
+        <result property="retirementRange" column="RETIREMENT_RANGE"/>
+        <result property="retirementRangeCode" column="RETIREMENT_RANGE_CODE"/>
+        <result property="monthOrDay" column="MONTH_OR_DAY"/>
+        <result property="monthOrDayCode" column="MONTH_OR_DAY_CODE"/>
+        <result property="retiredayCheck" column="RETIREDAY_CHECK"/>
+        <result property="retiredayCheckCode" column="RETIREDAY_CHECK_CODE"/>
+    </resultMap>
+    <select id="selectRetirementSetMgmtDetail" resultMap="retirementSetMgmtResult">
+        SELECT MAX(DECODE(R.MOEL_CHECK, C.DETAIL_CODE_NUMBER, C.DETAIL_CODE_NAME))       AS MOEL_CHECK
+             , MAX(DECODE(R.MOEL_CHECK, C.DETAIL_CODE_NUMBER, R.MOEL_CHECK))             AS MOEL_CHECK_CODE
+             , MAX(DECODE(R.RETIREMENT_RANGE, C.DETAIL_CODE_NUMBER, C.DETAIL_CODE_NAME)) AS RETIREMENT_RANGE
+             , MAX(DECODE(R.RETIREMENT_RANGE, C.DETAIL_CODE_NUMBER, R.RETIREMENT_RANGE)) AS RETIREMENT_RANGE_CODE
+             , MAX(DECODE(R.MONTH_OR_DAY, C.DETAIL_CODE_NUMBER, C.DETAIL_CODE_NAME))     AS MONTH_OR_DAY
+             , MAX(DECODE(R.MONTH_OR_DAY, C.DETAIL_CODE_NUMBER, R.MONTH_OR_DAY))         AS MONTH_OR_DAY_CODE
+             , MAX(DECODE(R.RETIREDAY_CHECK, C.DETAIL_CODE_NUMBER, C.DETAIL_CODE_NAME))  AS RETIREDAY_CHECK
+             , MAX(DECODE(R.RETIREDAY_CHECK, C.DETAIL_CODE_NUMBER, R.RETIREDAY_CHECK))   AS RETIREDAY_CHECK_CODE
+        FROM RETIREMENT_MANAGE R
+           , DETAIL_CODE C
+    </select>
+
+    <update id="updateRetirementSetMgmt" parameterType="retirementSetMgmtTO">
+        <![CDATA[
+        UPDATE RETIREMENT_MANAGE
+        SET MOEL_CHECK=#{moelCheckCode},
+            RETIREMENT_RANGE=#{retirementRangeCode},
+            MONTH_OR_DAY=#{monthOrDayCode},
+            RETIREDAY_CHECK=#{retiredayCheckCode}
+        ]]>
+    </update>
+</mapper>

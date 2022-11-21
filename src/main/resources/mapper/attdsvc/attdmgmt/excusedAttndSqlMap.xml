@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.attdsvc.attdmgmt.mapper.ExcusedAttndMapper">
+
+	
+	<resultMap type="kr.co.seoulit.insa.attdsvc.attdmgmt.to.RestAttdTO" id="restAttdResult">
+		<result property="empCode" column="EMP_CODE" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="restAttdCode" column="REST_ATTD_CODE" />
+		<result property="restTypeCode" column="REST_TYPE_CODE" />
+		<result property="restTypeName" column="REST_TYPE_NAME" />
+		<result property="requestDate" column="REQUEST_DATE" />
+		<result property="startDate" column="START_DATE" />
+		<result property="endDate" column="END_DATE" />
+		<result property="numberOfDays" column="NUMBER_OF_DAYS" />
+		<result property="cost" column="COST" />
+		<result property="cause" column="CAUSE" />
+		<result property="applovalStatus" column="APPLOVAL_STATUS" />
+		<result property="rejectCause" column="REJECT_CAUSE" />
+		<result property="startTime" column="START_TIME" />
+		<result property="endTime" column="END_TIME" />
+	</resultMap>
+
+				
+	<select id="selectRestAttdList" parameterType="map" resultMap="restAttdResult">
+		<![CDATA[
+		SELECT R.EMP_CODE
+		, E.EMP_NAME
+		, R.REST_ATTD_CODE
+		, R.REST_TYPE_CODE
+		, R.REST_TYPE_NAME
+		, TO_CHAR(R.REQUEST_DATE, 'YYYY-MM-DD') REQUEST_DATE
+		, TO_CHAR(R.START_DATE, 'YYYY-MM-DD') START_DATE
+		, TO_CHAR(R.END_DATE, 'YYYY-MM-DD') END_DATE
+		, R.NUMBER_OF_DAYS
+		, R.COST
+		, R.CAUSE
+		, R.APPLOVAL_STATUS
+		, R.REJECT_CAUSE
+		, R.START_TIME
+		, R.END_TIME
+		FROM REST_ATTD R
+		, EMP E 
+		WHERE R.EMP_CODE = #{empCode} 
+		AND R.REQUEST_DATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') 
+		AND TO_DATE(#{endDate},'YYYY-MM-DD')
+		AND R.EMP_CODE = E.EMP_CODE
+		]]>
+	</select>
+	
+				
+	<select id="selectRestAttdListCode" parameterType="map" resultMap="restAttdResult">
+	<![CDATA[
+			SELECT R.EMP_CODE, E.EMP_NAME, R.REST_ATTD_CODE,
+			R.REST_TYPE_CODE, R.REST_TYPE_NAME,
+			TO_CHAR(R.REQUEST_DATE, 'YYYY-MM-DD') REQUEST_DATE,
+			TO_CHAR(R.START_DATE, 'YYYY-MM-DD') START_DATE, 
+			TO_CHAR(R.END_DATE, 'YYYY-MM-DD') END_DATE, 
+			R.NUMBER_OF_DAYS, R.COST, R.CAUSE, R.APPLOVAL_STATUS,
+			R.REJECT_CAUSE, R.START_TIME, 
+			CASE 
+			WHEN R.NUMBER_OF_DAYS != 1 AND REST_TYPE_CODE = 'ASC008' THEN R.END_TIME - 2400  ELSE R.END_TIME END AS END_TIME 
+			FROM REST_ATTD R, EMP E WHERE R.EMP_CODE = #{empCode} AND R.REQUEST_DATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			AND R.REST_TYPE_CODE = #{code} AND R.EMP_CODE = E.EMP_CODE
+		]]>
+	</select>
+				
+	
+	<select id="selectRestAttdListByAllDept" parameterType="string" resultMap="restAttdResult">
+	<![CDATA[
+			SELECT R.EMP_CODE, E.EMP_NAME, R.REST_ATTD_CODE,
+			R.REST_TYPE_CODE, R.REST_TYPE_NAME, 
+			TO_CHAR(R.REQUEST_DATE, 'YYYY-MM-DD') REQUEST_DATE,
+			TO_CHAR(R.START_DATE, 'YYYY-MM-DD') START_DATE,
+			TO_CHAR(R.END_DATE, 'YYYY-MM-DD') END_DATE, 
+			R.NUMBER_OF_DAYS, R.COST, R.CAUSE, R.APPLOVAL_STATUS, 
+			R.REJECT_CAUSE, R.START_TIME, 
+			CASE WHEN R.NUMBER_OF_DAYS != 1 AND REST_TYPE_CODE = 'ASC008' THEN R.END_TIME - 2400 ELSE R.END_TIME END AS END_TIME 
+			FROM REST_ATTD R, EMP E 
+			WHERE 1=1 
+			AND R.REQUEST_DATE = TO_DATE(#{applyDay},'YYYY-MM-DD') 
+			AND R.EMP_CODE = E.EMP_CODE 
+	]]>
+	</select>
+				
+				
+	<select id="selectRestAttdListByDept" parameterType="map" resultMap="restAttdResult">
+	<![CDATA[
+			SELECT R.EMP_CODE, E.EMP_NAME, R.REST_ATTD_CODE,
+			R.REST_TYPE_CODE, R.REST_TYPE_NAME, 
+			TO_CHAR(R.REQUEST_DATE, 'YYYY-MM-DD') REQUEST_DATE, 
+			TO_CHAR(R.START_DATE, 'YYYY-MM-DD') START_DATE,
+			TO_CHAR(R.END_DATE, 'YYYY-MM-DD') END_DATE, 
+			R.NUMBER_OF_DAYS, R.COST, R.CAUSE, R.APPLOVAL_STATUS, 
+			R.REJECT_CAUSE, R.START_TIME,
+	      	CASE WHEN R.NUMBER_OF_DAYS != 1 AND REST_TYPE_CODE = 'ASC008' THEN R.END_TIME - 2400 ELSE R.END_TIME END AS END_TIME 
+			FROM REST_ATTD R, EMP E
+			WHERE 1=1 
+			AND E.DEPT_CODE = #{deptName}
+			AND R.REQUEST_DATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			AND R.EMP_CODE = E.EMP_CODE 
+	]]>
+	</select>	
+				
+							
+	<insert id="insertRestAttd" parameterType="kr.co.seoulit.insa.attdsvc.attdmgmt.to.RestAttdTO">
+	<![CDATA[
+		INSERT INTO REST_ATTD VALUES (
+		#{empCode}
+		, REST_ATTD_CODE_SEQ.NEXTVAL
+		, #{restTypeCode , jdbcType=VARCHAR }
+		, #{restTypeName , jdbcType=VARCHAR}
+		, #{requestDate , jdbcType=DATE}
+		, #{startDate , jdbcType=DATE}
+		, #{endDate , jdbcType=DATE}
+		, #{cause ,jdbcType=VARCHAR}
+		, #{applovalStatus,jdbcType=VARCHAR}
+		, #{rejectCause,jdbcType=VARCHAR}
+		, #{cost,jdbcType=VARCHAR}
+		, #{startTime,jdbcType=INTEGER}
+		, #{endTime,jdbcType=INTEGER}
+		, #{numberOfDays,jdbcType=INTEGER})
+		]]>
+	</insert>
+	
+	<update id="updateRestAttd" parameterType="kr.co.seoulit.insa.attdsvc.attdmgmt.to.RestAttdTO">
+	<![CDATA[
+		UPDATE REST_ATTD SET
+		  CAUSE = #{cause,jdbcType=VARCHAR}
+		, APPLOVAL_STATUS = #{applovalStatus,jdbcType=VARCHAR}
+		, REJECT_CAUSE = #{rejectCause,jdbcType=VARCHAR}
+		WHERE 1=1 
+		AND EMP_CODE = #{empCode,jdbcType=VARCHAR}
+		AND REST_ATTD_CODE = #{restAttdCode,jdbcType=VARCHAR}
+	]]>
+	</update>
+			
+								
+	<delete id="deleteRestAttd" parameterType="kr.co.seoulit.insa.attdsvc.attdmgmt.to.RestAttdTO">
+	<![CDATA[
+		DELETE FROM REST_ATTD 
+		WHERE EMP_CODE = #{empCode} 
+		AND REST_ATTD_CODE = #{restAttdCode}
+	]]>
+	</delete>
+	
+	
+</mapper>

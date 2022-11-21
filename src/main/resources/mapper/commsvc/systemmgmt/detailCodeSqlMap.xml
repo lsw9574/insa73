@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.commsvc.systemmgmt.mapper.DetailCodeMapper">
+
+
+	<resultMap type="kr.co.seoulit.insa.commsvc.systemmgmt.to.DetailCodeTO" id="detailCodeResult"> 
+		<result property="detailCodeNumber" column="DETAIL_CODE_NUMBER" />
+		<result property="codeNumber" column="CODE_NUMBER" />
+		<result property="detailCodeName" column="DETAIL_CODE_NAME" />
+		<result property="detailCodeNameusing" column="DETAIL_CODE_NAMEUSING" />
+	</resultMap>
+
+
+	<select id="selectDetailCodeList" resultMap="detailCodeResult" parameterType="string">
+		<![CDATA[   
+		SELECT DETAIL_CODE_NUMBER
+		, CODE_NUMBER
+		, DETAIL_CODE_NAME
+		, DETAIL_CODE_NAMEUSING
+		FROM DETAIL_CODE
+		WHERE CODE_NUMBER = #{codeNumber} ]]>
+    </select>
+
+	
+	<update id="updateDetailCode" parameterType="kr.co.seoulit.insa.commsvc.systemmgmt.to.DetailCodeTO">
+		<![CDATA[                
+   		UPDATE DETAIL_CODE SET
+   		CODE_NUMBER = #{codeNumber}, DETAIL_CODE_NAME = #{detailCodeName}
+   		, DETAIL_CODE_NAMEUSING = #{detailCodeNameusing}
+   		WHERE DETAIL_CODE_NUMBER = #{detailCodeNumber} ]]>
+    </update>
+    
+    
+    <insert id="registDetailCode" parameterType="kr.co.seoulit.insa.commsvc.systemmgmt.to.DetailCodeTO">
+		<![CDATA[                
+   		INSERT INTO DETAIL_CODE VALUES(
+   		#{detailCodeNumber}, #{codeNumber}
+   		, #{detailCodeName}, #{detailCodeNameusing}, NULL ) ]]>
+    </insert>
+	
+	
+	<delete id="deleteDetailCode" parameterType="kr.co.seoulit.insa.commsvc.systemmgmt.to.DetailCodeTO">
+		<![CDATA[                
+   		DELETE FROM DETAIL_CODE WHERE 
+   		DETAIL_CODE_NUMBER = #{detailCodeNumber}
+   		AND DETAIL_CODE_NAME = #{detailCodeName} ]]>
+    </delete>
+	
+	
+	<select id="selectDetailCodeListRest" resultMap="detailCodeResult" parameterType="map">
+		<![CDATA[          
+		SELECT DETAIL_CODE_NUMBER
+		, CODE_NUMBER
+		, DETAIL_CODE_NAME
+		, DETAIL_CODE_NAMEUSING
+		FROM DETAIL_CODE
+		WHERE DETAIL_CODE_NUMBER = #{code1}
+		OR DETAIL_CODE_NUMBER = #{code2}
+		OR DETAIL_CODE_NUMBER = #{code3} ]]>
+    </select>
+	
+	
+</mapper>

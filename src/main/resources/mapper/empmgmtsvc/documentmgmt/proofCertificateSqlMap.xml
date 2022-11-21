@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.empmgmtsvc.documentmgmt.mapper.ProofCertificateMapper">
+
+		
+		<resultMap type="kr.co.seoulit.insa.empmgmtsvc.documentmgmt.to.proofTO" id="proofCertificateResult">
+			<result property="empName" column="EMP_NAME"/> 
+			<result property="empCode" column="EMP_CODE"/> 
+			<result property="proofTypeCode" column="PROOF_CODE"/> 
+			<result property="proofTypeName" column="DETAIL_CODE_NAME"/> 
+			<result property="dept" column="DEPT_NAME"/> 
+			<result property="cash" column="PROOT_COST"/>
+			<result property="startDate" column="REQUEST_DATE"/>
+			<result property="cause" column="REASON"/>
+			<result property="receipt" column="RECEIPT"/>
+			<result property="applovalStatus" column="APPLOVALSTATUS"/>
+		</resultMap>
+		
+		
+		<resultMap type="kr.co.seoulit.insa.empmgmtsvc.documentmgmt.to.proofTO" id="proofCertificateResult1">
+			<result property="empName" column="EMP_NAME"/> 		 
+			<result property="proofTypeName" column="PROOF_NAME"/> 
+			<result property="position" column="POSITION"/> 
+			<result property="dept" column="DEPT_NAME"/>
+			<result property="cash" column="PROOT_COST"/>
+			<result property="startDate" column="REQUEST_DATE"/>
+			<result property="cause" column="REASON"/>
+			<result property="receipt" column="RECEIPT"/>
+			<result property="applovalStatus" column="APPLOVALSTATUS"/>
+		</resultMap>
+	
+	
+	<insert id="insertProofCertificateRequest" parameterType="kr.co.seoulit.insa.empmgmtsvc.documentmgmt.to.proofTO">
+		INSERT INTO PROOF_LIST VALUES
+		 (#{empCode}
+		 ,#{proofTypeCode}
+		 ,#{proofTypeName}
+		 ,#{position}
+		 ,#{dept}
+		 ,#{cash}
+		 ,#{startDate}
+		 ,#{cause}
+		 ,#{receipt}
+		 ,#{applovalStatus}
+		 ,sequence_tab1.nextval)
+	</insert>
+	
+	
+	<select id="selectProofCertificateList" parameterType="map" resultMap="proofCertificateResult1">
+		SELECT E.EMP_NAME
+		,P.PROOF_NAME
+		,P.POSITION
+		,P.DEPT_NAME
+		,P.PROOT_COST
+		,P.REQUEST_DATE
+		,P.REASON
+		,P.RECEIPT
+		,P.APPLOVALSTATUS
+		FROM PROOF_LIST P
+		, EMP E
+		WHERE E.EMP_CODE=#{empCode}
+		AND P.PROOF_CODE=#{proofTypeCode}
+		AND P.REQUEST_DATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
+	</select>
+	
+	
+	<delete id="deleteProof" parameterType="kr.co.seoulit.insa.empmgmtsvc.documentmgmt.to.proofTO">
+		DELETE FROM PROOF_LIST WHERE PROOT_COST=#{cash} AND RECEIPT=#{receipt}
+	</delete>
+	
+	
+    <select id="selectProofListByDept" parameterType="map" resultMap="proofCertificateResult">
+    		 SELECT D.DEPT_NAME
+    		 , P.EMP_CODE,E.EMP_NAME
+    		 , P.PROOF_CODE
+    		 , DD.DETAIL_CODE_NAME
+    		 , P.REQUEST_DATE
+    		 , P.APPLOVALSTATUS
+    		 ,P.PROOT_COST
+    		 ,P.REASON
+    		 ,P.RECEIPT
+			 FROM PROOF_LIST P
+			 , EMP E,DEPT D
+			 , DETAIL_CODE DD
+			 WHERE P.EMP_CODE=E.EMP_CODE(+)
+			 AND E.DEPT_CODE=D.DEPT_CODE(+)
+			 AND P.PROOF_CODE=DD.DETAIL_CODE_NUMBER(+)
+			 AND P.PROOF_NAME=#{deptName}
+			 AND REQUEST_DATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') 
+			 AND TO_DATE(#{endDate},'YYYY-MM-DD')
+    </select>
+    
+    
+    <select id="selectProofListByAllDept" parameterType="string" resultMap="proofCertificateResult">
+    			 SELECT D.DEPT_NAME
+    			 , P.EMP_CODE
+    			 ,E.EMP_NAME
+    			 , P.PROOF_CODE
+    			 , DD.DETAIL_CODE_NAME
+    			 ,P.REQUEST_DATE
+    			 , P.APPLOVALSTATUS
+    			 ,P.PROOT_COST
+    			 ,P.REASON,P.RECEIPT 
+			     FROM PROOF_LIST P
+			     , EMP E
+			     ,DEPT D
+			     , DETAIL_CODE DD
+				 WHERE P.EMP_CODE=E.EMP_CODE(+)
+				 AND E.DEPT_CODE=D.DEPT_CODE(+)
+				 AND P.PROOF_CODE=DD.DETAIL_CODE_NUMBER(+)
+				 AND REQUEST_DATE =TO_DATE(#{startDate},'YYYY-MM-DD')
+    </select>
+    
+    
+    <update id="updateProof" parameterType="kr.co.seoulit.insa.empmgmtsvc.documentmgmt.to.proofTO">
+    		UPDATE PROOF_LIST SET 
+			APPLOVALSTATUS = #{applovalStatus} 
+			WHERE EMP_CODE = #{empCode} 
+			AND REQUEST_DATE = TO_DATE(#{startDate},'YYYY-MM-DD') 
+			AND PROOT_COST = #{cash}
+    </update>
+    
+    
+    <update id="updateProofImg" parameterType="map" >
+    		UPDATE PROOF_LIST SET 
+			RECEIPT=#{proofImg}
+			WHERE PROOT_COST = #{cashCode}
+    </update>
+	 
+	 
+</mapper>

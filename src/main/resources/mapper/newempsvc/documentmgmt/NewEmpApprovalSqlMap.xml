@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.newempsvc.documentmgmt.mapper.NewempApprovalMapper">
+
+	<resultMap type="kr.co.seoulit.insa.newempsvc.documentmgmt.to.RecruitmentTO" id="newemp">
+		<result property="approvalStatus" column="APPROVAL" />
+		<result property="pcode" column="P_CODE" />
+		<result property="p_avg" column="P_AVG" />
+		<result property="i_avg" column="I_AVG" />
+		<result property="pname" column="P_NAME" />
+		<result property="age" column="P_AGE" />
+		<result property="gender" column="P_GENDER" />
+		<result property="address" column="P_ADDRESS" />
+		<result property="tel" column="P_TEL" />
+		<result property="email" column="P_EMAIL" />
+		<result property="dept" column="P_DEPT" />
+		<result property="lastschool" column="P_LAST_SCHOOL" />
+	</resultMap>
+	
+	<select id="findnewempcruit" parameterType="kr.co.seoulit.insa.newempsvc.documentmgmt.to.ConditionTO" resultMap="newemp" >
+		SELECT 
+			sa.APPROVAL,
+			sa.P_CODE,
+			sa.P_AVG,
+			sa.I_AVG,
+			ner.P_NAME,
+			ner.P_AGE,
+			ner.P_GENDER,
+			ner.P_ADDRESS,
+			ner.P_TEL,
+			ner.P_EMAIL,
+			ner.P_DEPT,
+			ner.P_LAST_SCHOOL
+			FROM
+				SUCCESS_APPLICANT sa,
+				NEW_EMP_RESUME ner
+				WHERE
+					sa.P_CODE = ner.P_CODE AND
+					ner.YEAR = #{year} AND ner.half = #{half}
+	</select>
+	
+	<select id="RegisterEmp" parameterType="map"  statementType="CALLABLE">
+		<![CDATA[
+        	{call NEW_EMP_INSERT_EMP(
+        	#{pcode, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{pname, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{gender, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{tel, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{address, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{email, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{lastschool, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{dept, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{approvalStatus, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN}
+        	)}
+    	]]>	
+	</select>
+</mapper>

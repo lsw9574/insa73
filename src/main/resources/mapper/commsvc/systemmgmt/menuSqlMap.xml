@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.commsvc.systemmgmt.mapper.MenuMapper">
+
+	
+	<resultMap type="kr.co.seoulit.insa.commsvc.systemmgmt.to.MenuTO" id="menuResult">
+		<result property="menu_name" column="MENU_NAME" />
+		<result property="super_menu_code" column="SUPER_MENU_CODE" />
+		<result property="menu_code" column="MENU_CODE" />
+		<result property="depth" column="DEPTH" />
+		<result property="is_collapse" column="IS_COLLAPSE" />
+		<result property="menu_url" column="MENU_URL" />
+		<result property="navbar_name" column="NAVBAR_NAME" />
+	</resultMap>
+
+
+	<select id="selectMenuList" resultMap="menuResult">
+		<![CDATA[ 
+			select  menu_name 
+			 ,super_menu_code 
+			 ,menu_code 
+			 ,level as DEPTH 
+			 ,decode(super_menu_code,null,'Y','N') as IS_COLLAPSE
+			 ,menu_url
+			 ,navbar_name
+			from menu 
+			start with super_menu_code is null connect by prior menu_code = super_menu_code
+			 ]]>
+    </select>
+    
+    
+</mapper>

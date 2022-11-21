@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.retirementsvc.retirementmgmt.mapper.RetirementReceiptMapper">
+
+    <resultMap type="kr.co.seoulit.insa.retirementsvc.retirementmgmt.to.RetirementReceiptTO"
+               id="retirementReportResult">
+        <result property="empName" column="EMP_NAME"/>
+        <result property="deptName" column="DEPT_NAME"/>
+        <result property="birthdate" column="BIRTHDATE"/>
+        <result property="position" column="POSITION"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="retirementRange" column="RETIREMENT_RANGE"/>
+        <result property="hiredate" column="HIREDATE"/>
+        <result property="retiredate" column="RETIREDATE"/>
+        <result property="retirementPayCheckDate" column="RETIREMENT_PAY_CHECK_DATE"/>
+        <result property="retirementPayDate" column="RETIREMENT_PAY_DATE"/>
+        <result property="retirementPay" column="RETIREMENT_PAY"/>
+        <result property="workplaceName" column="WORKPLACE_NAME"/>
+        <result property="workplaceAddress" column="WORKPLACE_ADDRESS"/>
+        <result property="today" column="TODAY"/>
+
+    </resultMap>
+
+    <select id="selectReport" parameterType="String" resultMap="retirementReportResult">
+      <![CDATA[
+        SELECT E.EMP_NAME
+             , TO_CHAR(E.BIRTHDATE, 'YYYY-MM-DD')                                   AS BIRTHDATE
+             , D.DEPT_NAME
+             , E.ADDRESS
+             , P.POSITION
+             , C.DETAIL_CODE_NAME                                                   AS WORKPLACE_NAME
+             , K.WORKPLACE_BASIC_ADDRESS || ' (' || WORKPLACE_DETAIL_ADDRESS || ')' AS WORKPLACE_ADDRESS
+             , TO_CHAR(SYSDATE, 'yyyy-mm-dd')                                       AS TODAY
+             , #{retirementRange}                                                   AS RETIREMENT_RANGE
+             , #{hireDate}                                                          AS HIREDATE
+             , #{retireDate}                                                        AS RETIREDATE
+             , #{retireDate}                                                        AS RETIREMENT_PAY_CHECK_DATE
+             , TO_CHAR(TO_DATE(#{retireDate}, 'YYYY-MM-DD') + 7, 'YYYY-MM-DD')      AS RETIREMENT_PAY_DATE
+             , #{retirementPay}                                                     AS RETIREMENT_PAY
+
+
+        FROM EMP E,
+             WORK_INFO W,
+             DEPT D,
+             POSITION P,
+             DETAIL_CODE C,
+             WORKPLACE K
+        WHERE E.EMP_CODE = W.EMP_CODE
+          AND E.DEPT_CODE = D.DEPT_CODE
+          AND E.POSITION_CODE = P.POSITION_CODE
+          AND C.DETAIL_CODE_NUMBER = K.WORKPLACE_CODE
+          AND E.WORKPLACE_CODE = K.WORKPLACE_CODE
+          AND E.EMP_CODE = #{empCode}
+        ]]>
+      </select>
+    <resultMap type="kr.co.seoulit.insa.retirementsvc.retirementmgmt.to.RetirementPersonTO" id="retirementPersonResult">
+        <result property="empCode" column="EMP_CODE"/>
+        <result property="empName" column="EMP_NAME"/>
+        <result property="retirementDate" column="RETIRE_DATE"/>
+        <result property="deptName" column="DEPT_NAME"/>
+        <result property="workplaceName" column="WORKPLACE_NAME"/>
+    </resultMap>
+
+    <select id="selectRetirementList" parameterType="map" resultMap="retirementPersonResult">
+                <![CDATA[
+        SELECT E.EMP_CODE
+             , E.EMP_NAME
+             , TO_CHAR(W.RETIRE_DATE, 'YYYY-MM-DD') AS RETIRE_DATE
+             , D.DEPT_NAME
+             , C.DETAIL_CODE_NAME                   AS WORKPLACE_NAME
+        FROM WORK_INFO W
+           , EMP E
+           , DEPT D
+           , DETAIL_CODE C
+           , APPLY_RETIREMENT_RECEIPT R
+        WHERE W.EMP_CODE = #{empCode}
+          AND W.EMP_CODE = R.EMP_CODE
+          AND W.EMP_CODE = E.EMP_CODE
+          AND D.DEPT_CODE = E.DEPT_CODE
+          AND E.WORKPLACE_CODE = C.DETAIL_CODE_NUMBER
+          AND R.RETIREMENT_APPLY = 'Y'
+          AND W.RETIRE_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD')
+            AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+        ]]>
+    </select>
+    <update id="updateWorkInfo" parameterType="map" statementType="CALLABLE">
+		        <![CDATA[
+        {call P_UPDATE_RETIREMENT_DATE(
+                #{empCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN}
+            , #{retirementDate, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN}
+            , #{errorCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT}
+            , #{errorMsg, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT}
+            )}
+        ]]>
+	</update>
+</mapper>

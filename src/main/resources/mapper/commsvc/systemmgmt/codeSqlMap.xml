@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.commsvc.systemmgmt.mapper.CodeMapper">
+
+	<resultMap type="kr.co.seoulit.insa.commsvc.systemmgmt.to.CodeTO" id="codeResult">
+		<result property="codeNumber" column="CODE_NUMBER" />
+		<result property="codeName" column="CODE_NAME" />
+		<result property="modifiable" column="MODIFIABLE" />
+	</resultMap>
+
+	<select id="selectCode" resultMap="codeResult">
+		SELECT CODE_NUMBER
+		, CODE_NAME
+		, MODIFIABLE
+		FROM DIVISION_CODE
+		ORDER BY CODE_NUMBER
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.salarysvc.salaryinfomgmt.mapper.FullTimeSalaryMapper">
+
+	
+	<resultMap type="kr.co.seoulit.insa.salarysvc.salaryinfomgmt.to.FullTimeSalTO" id="fullTimeSalResult">
+		<result property="empCode" column="EMP_CODE" />
+		<result property="applyYearMonth" column="APPLY_YEAR_MONTH" />
+		<result property="basicSalary" column="BASIC_SALARY" />
+		<result property="positionSalary" column="POSITION_SALARY" />
+		<result property="familySalary" column="FAMILY_SALARY" />
+		<result property="foodSalary" column="FOOD_SALARY" />
+		<result property="overWorkSalary" column="OVER_WORK_SALARY" />
+		<result property="nationalPension" column="NATIONAL_PENSION" />
+		<result property="healthInsurance" column="HEALTH_INSURANCE" />
+		<result property="longTermInsurance" column="LONG_TERM_INSURANCE" />
+		<result property="employmentInsurance" column="EMPLOYMENT_INSURANCE" />
+		<result property="religionDonation" column="RELIGION_DONATION" />
+		<result property="incomeTax" column="INCOME_TAX" />
+		<result property="residentTax" column="RESIDENT_TAX" />
+		<result property="finalizeStatus" column="FINALIZE_STATUS" />
+		<result property="basicSalBefore" column="BASIC_SAL_BEFORE" />
+	</resultMap>
+	
+	
+	<resultMap type="kr.co.seoulit.insa.salarysvc.salaryinfomgmt.to.PayDayTO" id="payDayResult">
+		<result property="ord" column="ORD" />
+		<result property="payment_date" column="PAYMENT_DATE" />
+		<result property="smltn_issue" column="SMLTN_ISSUE" />
+		<result property="salary_type" column="SALARY_TYPE" />
+		<result property="remarks" column="REMARKS" />
+	</resultMap>
+
+
+	<select id="findAllMoney" parameterType="String" resultMap="fullTimeSalResult" >
+		<![CDATA[
+			SELECT EMP_CODE, APPLY_YEAR_MONTH, BASIC_SALARY
+			, POSITION_SALARY, FAMILY_SALARY, FOOD_SALARY, OVER_WORK_SALARY
+			, NATIONAL_PENSION, HEALTH_INSURANCE
+			, LONG_TERM_INSURANCE, EMPLOYMENT_INSURANCE, RELIGION_DONATION
+			, INCOME_TAX, RESIDENT_TAX, FINALIZE_STATUS, BASIC_SAL_BEFORE
+			FROM  FULLTIME_EMPLOYEE_SALARY
+			WHERE APPLY_YEAR_MONTH = #{applyYearMonth}
+		]]>
+	</select>
+   
+   
+	<select id="selectFullTimeSalary" parameterType="map"  statementType="CALLABLE">
+		<![CDATA[
+        	{call P_CREATE_MONTH_SALARY(
+        	#{applyYearMonth, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{empCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{result, jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT , resultMap=fullTimeSalResult},
+        	#{errorCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT},
+        	#{errorMsg, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT}
+        	)}
+    	]]>	
+	</select>
+
+	
+	<update id="updateFullTimeSalary" parameterType="kr.co.seoulit.insa.salarysvc.salaryinfomgmt.to.FullTimeSalTO">
+		<![CDATA[
+			UPDATE FULLTIME_EMPLOYEE_SALARY 
+			SET FINALIZE_STATUS = #{finalizeStatus} 
+			WHERE EMP_CODE = #{empCode} AND APPLY_YEAR_MONTH = #{applyYearMonth}
+		]]>
+	</update>
+	
+	<select id="selectPayDayList" resultMap="payDayResult">
+	<![CDATA[
+      select * from SALARY_BONUS_DATE
+    ]]>
+	</select>
+	
+	
+</mapper>

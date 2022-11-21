@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.attdsvc.attdappvl.mapper.DailyAttndMgtMapper">
+
+  <resultMap type="kr.co.seoulit.insa.attdsvc.attdappvl.to.DayAttdMgtTO" id="dayAttdMgtResult">
+    <result property="dayAttdCode" column="DAY_ATTD_CODE" />
+    <result property="dayAttdName" column="DAY_ATTD_NAME" />
+    <result property="empCode" column="EMP_CODE" />
+    <result property="attendTime" column="ATTEND_TIME" />
+    <result property="quitTime" column="QUIT_TIME" />
+    <result property="lateWhether" column="LATE_WHETHER" />
+    <result property="leaveHour" column="LEAVE_HOUR" />
+    <result property="workHour" column="WORK_HOUR" />
+    <result property="overWorkHour" column="OVER_WORK_HOUR" />
+    <result property="nightWorkHour" column="NIGHT_WORK_HOUR" />
+    <result property="finalizeStatus" column="FINALIZE_STATUS" />
+    <result property="applyDays" column="APPLY_DAYS" />
+    <result property="privateleaveHour" column="PRIVATE_LEAVE_HOUR" />
+    <result property="publicleaveHour" column="PUBLIC_LEAVE_HOUR" />
+    <result property="empName" column="EMP_NAME" />
+  </resultMap>
+  
+  
+   	<select id="batchDayAttdMgtProcess" parameterType="map" statementType="CALLABLE">
+		<![CDATA[
+           {call P_HR_ATTENDANCE.P_CREATE_DAY_ATTD_MANAGE(
+             TO_DATE(#{applyDay, mode=IN, jdbcType=DATE, javaType=java.lang.String},'yyyy-mm-dd')
+           , #{result, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=dayAttdMgtResult}
+           , #{errorCode, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+           , #{errorMsg, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+           )}
+    	]]>
+	</select>
+  
+  
+  <update id="updateDayAttdMgtList" parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.DayAttdMgtTO">
+	    UPDATE DAY_ATTD_MANAGE SET
+	    FINALIZE_STATUS = #{finalizeStatus}
+	    WHERE EMP_CODE = #{empCode}
+	    AND APPLY_DAYS = #{applyDays}
+  </update> 
+  
+  
+</mapper>

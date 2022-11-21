@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.newempsvc.newempinfomgmt.mapper.SuccessApplicantMapper">
+
+	<resultMap type="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.ApplicantTO" id="successApplicant">
+		<result property="code" column="P_CODE" />
+		<result property="personality_avg" column="P_AVG" />
+		<result property="interview_avg" column="I_AVG" />
+		<result property="name" column="P_NAME" />
+		<result property="age" column="P_AGE" />
+		<result property="dept" column="P_DEPT" />
+		<result property="gender" column="P_GENDER" />
+		<result property="last_school" column="P_LAST_SCHOOL" />
+		<result property="tel" column="P_TEL" />
+		<result property="address" column="P_ADDRESS" />
+		<result property="career" column="P_CAREER" />
+		<result property="email" column="P_EMAIL" />
+	</resultMap>
+	
+	<select id="FindAllSuccessApplicant" parameterType="map"  statementType="CALLABLE">
+		<![CDATA[
+        	{call LIST_APPLICANT(
+        	#{year, jdbcType=INTEGER , javaType=java.lang.Integer, mode=IN},
+        	#{half, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+        	#{result, jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT , resultMap=successApplicant}
+        	)}
+    	]]>	
+	</select>
+	
+</mapper>

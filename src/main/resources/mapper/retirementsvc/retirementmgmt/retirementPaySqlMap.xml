@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.retirementsvc.retirementmgmt.mapper.RetirementPayMapper">
+    <resultMap type="kr.co.seoulit.insa.retirementsvc.retirementmgmt.to.RetirementPayTO" id="retirementPayResult">
+        <result property="empName" column="EMP_NAME"/>
+        <result property="retirementPay" column="RETIREMENT_PAY"/>
+        <result property="retirementRange" column="RETIREMENT_RANGE"/>
+        <result property="hiredate" column="HIREDATE"/>
+        <result property="retiredate" column="RETIREDATE"/>
+        <result property="retirementBonus" column="RETIREMENT_BONUS"/>
+        <result property="retirementAwards" column="RETIREMENT_AWARDS"/>
+    </resultMap>
+    <select id="selectRetirementPay" parameterType="map"  statementType="CALLABLE">
+		<![CDATA[
+        {call P_RETIREMENT_DETAIL(
+                #{empCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+                #{result, jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT , resultMap=retirementPayResult},
+                #{errorCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT},
+                #{errorMsg, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT}
+            )}
+        ]]>
+	</select>
+
+</mapper>

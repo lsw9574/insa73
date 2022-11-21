@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.newempsvc.documentmgmt.mapper.EducationMapper">
+
+	<resultMap type="kr.co.seoulit.insa.newempsvc.documentmgmt.to.GanttDataTO" id="dataResult">
+			<result property="id" column="ID" />
+			<result property="text" column="TRAINING_NAME" />
+			<result property="start_date" column="START_DATE" />
+			<result property="end_date" column="END_DATE" />
+			<result property="duration" column="DURATION" />
+			<result property="parent" column="LINE_PARENT" />
+			<result property="open" column="OPEN" />
+	</resultMap>
+	<resultMap type="kr.co.seoulit.insa.newempsvc.documentmgmt.to.GanttLinksTO" id="linksResult">
+			<result property="id" column="DATA_ID" />
+			<result property="source" column="SOURCE" />
+			<result property="target" column="TARGET" />
+			<result property="type" column="TYPE" />
+
+	</resultMap>
+	<select id="findganttDataList" resultMap="dataResult" parameterType="kr.co.seoulit.insa.newempsvc.documentmgmt.to.GanttDataTO" >
+		SELECT
+			ID,
+			TRAINING_NAME,
+			TO_CHAR(START_DATE, 'DD-MM-YYYY') START_DATE,
+			TO_CHAR(END_DATE, 'DD-MM-YYYY') END_DATE,
+			DURATION,
+			LINE_PARENT,
+			OPEN
+			FROM
+				NEWEMP_EDUCATION_DATE
+		
+	</select>
+	
+	<select id="findganttLinksList" resultMap="linksResult" parameterType="kr.co.seoulit.insa.newempsvc.documentmgmt.to.GanttLinksTO" >
+		SELECT
+				DATA_ID,
+				SOURCE,
+				TARGET,
+				TYPE
+				FROM
+					NEWEMP_EDUCATION_LINK
+	</select>
+
+  	<insert id="insertData" parameterType="kr.co.seoulit.insa.newempsvc.documentmgmt.to.GanttDataTO">
+		INSERT INTO NEWEMP_EDUCATION_DATE VALUES(
+			#{id},
+			#{text},
+			TO_DATE(#{start_date},'DD-MM-YYYY HH24:MI'),
+			TO_DATE(#{end_date},'DD-MM-YYYY  HH24:MI'),
+			#{duration},
+			#{parent},
+			#{open}
+		)
+	</insert> 
+	
+	<insert id="insertLinks" parameterType="kr.co.seoulit.insa.newempsvc.documentmgmt.to.GanttLinksTO">
+		INSERT INTO NEWEMP_EDUCATION_LINK VALUES(
+			#{id},
+			#{source},
+			#{target},
+			#{type}
+		)
+	</insert> 
+</mapper>

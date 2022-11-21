@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.mapper.BaseExtSalMapper">
+
+	
+	<resultMap type="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.to.BaseExtSalTO" id="baseExtSalResult">
+		<result property="extSalCode" column="EXT_SAL_CODE" />
+		<result property="extSalName" column="EXT_SAL_NAME" />
+		<result property="ratio" column="RATIO" />
+	</resultMap>
+
+
+	<select id="selectBaseExtSalList" resultMap="baseExtSalResult">
+		<![CDATA[
+			SELECT * FROM BASE_EXT_SAL
+		]]>
+	</select>
+	
+
+	<update id="updateBaseExtSal" parameterType="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.to.BaseExtSalTO">
+		<![CDATA[
+			UPDATE BASE_EXT_SAL SET
+			RATIO = #{ratio}
+			WHERE EXT_SAL_CODE = #{extSalCode}
+		]]>
+	</update>
+	
+	
+</mapper>

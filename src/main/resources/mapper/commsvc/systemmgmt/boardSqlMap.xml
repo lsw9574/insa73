@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.commsvc.systemmgmt.mapper.BoardMapper">
+
+	
+	<resultMap type="kr.co.seoulit.insa.commsvc.systemmgmt.to.BoardTO" id="boardResult">
+		<result property="board_seq" column="BOARD_SEQ" />
+		<result property="ref_seq" column="REF_SEQ" />
+		<result property="reply_seq" column="REPLY_SEQ" />
+		<result property="name" column="NAME" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="hit" column="HIT" />
+		<result property="reg_date" column="REG_DATE" />
+	</resultMap>
+	
+	
+	<resultMap type="kr.co.seoulit.insa.commsvc.systemmgmt.to.BoardTO" id="boardResult1">
+		<result property="board_seq" column="board_seq" />
+		<result property="ref_seq" column="ref_seq" />
+		<result property="reply_seq" column="reply_seq" />
+		<result property="name" column="name" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="hit" column="hit" />
+		<result property="reg_date" column="reg_date" />
+	</resultMap>
+	
+		
+	<resultMap type="kr.co.seoulit.insa.sys.util.BoardFile" id="fileResult">
+		<result property="file_seq" column="file_seq" />
+		<result property="fileName" column="filename" />
+		<result property="tempFileName" column="tempfilename" />
+	</resultMap>
+	
+
+	<select id="selectAllBoardList" resultMap="boardResult">
+		<![CDATA[                
+	   		SELECT board_seq,
+	   		       ref_seq,
+	   		       reply_seq,
+	   		       name,
+	   		       title,
+	   		       content,
+	   		       hit,
+	   		       reg_date
+	   		FROM newBoard START WITH reply_seq=0
+	   		CONNECT BY PRIOR board_seq=reply_seq
+	   		ORDER SIBLINGS BY ref_seq desc 
+   		]]>
+    </select>
+    
+    <select id="selectBoard" parameterType="integer" resultMap="boardResult1" >
+		<![CDATA[                
+   			SELECT * 
+   			FROM NEWBOARD
+   			WHERE board_seq = #{board_seq}
+   		]]>
+    </select>
+    
+    <select id="selectBoardFile" parameterType="integer" resultMap="fileResult" >
+		<![CDATA[                
+   			SELECT file_seq, filename, tempfilename 
+   			FROM BOARDFILE
+   			WHERE board_seq = #{board_seq}
+   		]]>
+    </select>
+    
+    
+    <update id="updateHit" parameterType="integer">
+		<![CDATA[                
+   			UPDATE NEWBOARD SET hit=hit+1 WHERE board_seq = #{board_seq}
+   		]]>
+    </update>
+    
+    <insert id="insertBoard" parameterType="kr.co.seoulit.insa.commsvc.systemmgmt.to.BoardTO">
+		<![CDATA[                
+   			INSERT INTO NEWBOARD VALUES (newBoard_seq2.NEXTVAL, newBoard_seq2.CURRVAL, #{reply_seq},
+   			 #{name}, #{title}, #{content}, 0, #{reg_date})
+   		]]>
+    </insert>
+    
+    <insert id="insertReplyBoard" parameterType="kr.co.seoulit.insa.commsvc.systemmgmt.to.BoardTO">
+		<![CDATA[                
+   			INSERT INTO NEWBOARD VALUES (newBoard_seq2.NEXTVAL, #{ref_seq},
+   			 #{reply_seq}, #{name}, #{title}, #{content}, 0, #{reg_date})
+   		]]>
+    </insert>
+    
+    <insert id="insertBoardFile" parameterType="BoardFile">
+		<![CDATA[                
+   			INSERT INTO BOARDFILE VALUES (boardFile_seq2.NEXTVAL, newBoard_seq2.CURRVAL, #{fileName}, #{tempFileName})
+   		]]>
+    </insert>
+    
+    <select id="selectRowCount" resultType="integer">
+		<![CDATA[                
+   			SELECT COUNT(*) FROM NEWBOARD
+   		]]>
+    </select>
+
+
+	<delete id="deleteBoard" parameterType="integer">
+		<![CDATA[         
+   			delete from newboard where board_seq = #{board_seq}
+   		]]>
+    </delete>
+    
+    <delete id="deleteBoardFile" parameterType="integer">
+		<![CDATA[         
+   			delete from boardfile where board_seq = #{board_seq}
+   		]]>
+    </delete>
+    
+    <select id="selectBoardList" resultMap="boardResult" parameterType="map">
+		<![CDATA[                
+			SELECT *
+			FROM 
+			(SELECT ROWNUM AS RN, BOARD_SEQ, REF_SEQ, REPLY_SEQ, LEVEL, NAME, TITLE, CONTENT, HIT, REG_DATE 
+			 FROM  (SELECT * FROM NEWBOARD)
+		     START WITH REPLY_SEQ=0 
+		     CONNECT BY PRIOR BOARD_SEQ=REPLY_SEQ 
+		     ORDER SIBLINGS BY REF_SEQ DESC)A
+			 WHERE A.RN BETWEEN #{start} AND #{end}
+   		]]>
+   		  </select>
+   		  
+   		  
+</mapper>

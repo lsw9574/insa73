@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.mapper.BaseSalaryMapper">
+
+	
+	<resultMap type="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.to.BaseSalaryTO" id="baseSalaryResult">
+		<result property="positionCode" column="POSITION_CODE" />
+		<result property="position" column="POSITION" />
+		<result property="baseSalary" column="BASE_SALARY" />
+		<result property="hobongRatio" column="HOBONG_RATIO" />
+	</resultMap>
+
+
+	<select id="selectBaseSalaryList" resultMap="baseSalaryResult">
+		<![CDATA[
+			SELECT * FROM POSITION 
+			ORDER BY POSITION_CODE
+		]]>
+	</select>
+	
+	
+	<update id="updateBaseSalary" parameterType="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.to.BaseSalaryTO">
+		<![CDATA[
+			UPDATE  POSITION SET
+			BASE_SALARY = #{baseSalary}
+			, HOBONG_RATIO = #{hobongRatio}
+			WHERE POSITION_CODE = #{positionCode}
+		]]>
+	</update>
+	
+	
+	<insert id="insertBaseSalary" parameterType="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.to.BaseSalaryTO">
+		<![CDATA[
+			INSERT INTO BASE_SALARY 
+			VALUES 
+			( #{positionCode}
+			, #{position}
+			, #{baseSalary}
+			, #{hobongRatio} )
+		]]>
+	</insert>
+	
+	
+	<delete id="deleteBaseSalary" parameterType="kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.to.BaseSalaryTO">
+		<![CDATA[
+			DELETE BASE_SALARY
+			WHERE POSITION_CODE = #{positionCode}
+			AND POSITION = #{position}
+		]]>
+	</delete>
+	
+	
+</mapper>

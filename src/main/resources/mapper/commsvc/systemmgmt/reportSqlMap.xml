@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.seoulit.insa.commsvc.systemmgmt.mapper.ReportMapper">
+
+
+		<resultMap type="kr.co.seoulit.insa.commsvc.systemmgmt.to.ReportTO" id="reportResult">
+				<result property="empName" column="EMPNAME" />
+				<result property="hiredate" column="HIREDATE" />
+				<result property="occupation" column="OCCUPATION" />
+				<result property="employmentType" column="EMPLOYMENTTYPE" />
+				<result property="position" column="POSITION" />
+				<result property="address" column="ADDRESS" />
+				<result property="detailAddress" column="DETAILADDRESS" />
+				<result property="deptName" column="DEPTNAME" />
+		</resultMap>
+
+
+		<resultMap type="kr.co.seoulit.insa.commsvc.systemmgmt.to.ReportSalaryTO" id="reportSalaryResult">
+				<result property="empName" column="EMPNAME" />
+				<result property="position" column="POSITION" />
+				<result property="deptName" column="DEPTNAME" />
+				<result property="hiredate" column="HIREDATE" />
+				<result property="applyYearMonth" column="APPLYYEARMONTH" />
+				<result property="totalExtSal" column="TOTALEXTSAL" />
+				<result property="totalDeduction" column="TOTALDEDUCTION" />
+				<result property="totalPayment" column="TOTALPAYMENT" />
+				<result property="realSalary" column="REALSALARY" />
+				<result property="salary" column="SALARY" />
+				<result property="cost" column="COST" />
+				<result property="healthIns" column="HEALTHINS" />
+				<result property="goyongIns" column="GOYONGINS" />
+				<result property="janggiIns" column="JANGGIINS" />
+				<result property="gukmin" column="GUKMIN" />
+		</resultMap>
+
+
+		<select id="selectReport" parameterType="String" resultMap="reportResult">
+		<![CDATA[                
+ 	  		SELECT E.EMP_NAME as EMPNAME
+   			, TO_CHAR(W.HIREDATE,'YYYY')||'년 ' ||TO_CHAR(W.HIREDATE, 'MON')||TO_CHAR(W.HIREDATE,'DD')||'일' AS HIREDATE
+   			, W.OCCUPATION as OCCUPATION
+	   		, W.EMPLOYMENT_TYPE as EMPLOYMENTTYPE
+   			, P.POSITION as POSITION
+   			, E.ADDRESS as ADDRESS
+	   		, E.DETAIL_ADDRESS as DETAILADDRESS
+   			, D.DEPT_NAME as DEPTNAME
+   			FROM EMP E, WORK_INFO W, DEPT D, POSITION P
+	   		WHERE E.EMP_CODE = W.EMP_CODE
+   			AND E.DEPT_CODE = D.DEPT_CODE
+   			AND E.POSITION_CODE = P.POSITION_CODE
+   			AND E.EMP_CODE = #{empCode} ]]>
+		</select>
+
+
+		<select id="selecSalarytReport" parameterType="map" resultMap="reportSalaryResult">
+		<![CDATA[                
+   			SELECT E.EMP_NAME AS EMPNAME
+   			, P.POSITION AS POSITION
+   			, D.DEPT_NAME AS DEPTNAME
+   			, TO_CHAR(W.HIREDATE, 'YYYY"년"MM"월"DD"일"' ) AS HIREDATE
+   			, REPLACE(MS.APPLY_YEAR_MONTH,'-','년')||'월' AS APPLYYEARMONTH
+   			, (TO_CHAR(ms.TOTAL_EXT_SAL, '9,999,999,999')) ||'원' as TOTALEXTSAL
+   			, (TO_CHAR(ms.TOTAL_DEDUCTION, '9,999,999,999')) ||'원' as TOTALDEDUCTION
+   			, (TO_CHAR(ms.TOTAL_PAYMENT, '9,999,999,999'))||'원' as TOTALPAYMENT
+   			, (TO_CHAR(ms.REAL_SALARY, '9,999,999,999')) ||'원' as REALSALARY
+   			, (TO_CHAR(ms.SALARY, '9,999,999,999'))||'원' as SALARY
+   			, (TO_CHAR(ms.COST, '9,999,999,999'))||'원' as COST
+   			, (TO_CHAR(MAX(decode(md.DEDUCTION_NAME,'건강보험',price,price,null)), '9,999,999,999'))||'원' as HEALTHINS
+   			, (TO_CHAR(MAX(decode(md.DEDUCTION_NAME,'고용보험',price,price,null)), '9,999,999,999'))||'원' as GOYONGINS
+   			, (TO_CHAR(MAX(decode(md.DEDUCTION_NAME,'장기요양보험',price,price,null)), '9,999,999,999'))||'원' as JANGGIINS
+   			, (TO_CHAR(MAX(decode(md.DEDUCTION_NAME,'국민연금',price,price,null)), '9,999,999,999'))||'원' as GUKMIN
+   			FROM EMP e, MONTH_SALARY ms, WORK_INF w, MONTH_DEDUCTION md , POSITION p, DEPT d 
+   			WHERE e.EMP_CODE = #{empCode}
+   			AND e.EMP_CODE = w.EMP_CODE
+   			AND e.dept_code=d.dept_code
+   			AND md.APPLY_YEAR_MONTH = ms.APPLY_YEAR_MONTH
+   			AND ms.APPLY_YEAR_MONTH = #{applyMonth}
+   			AND P.POSITION_CODE = e.POSITION_CODE
+   			GROUP BY e.EMP_NAME, p.POSITION, d.DEPT_name, w.HIREDATE, p.BASE_SALARY
+   			, ms.APPLY_YEAR_MONTH, ms.SALARY, ms.TOTAL_EXT_SAL, ms.TOTAL_DEDUCTION, ms.TOTAL_PAYMENT, ms.REAL_SALARY, MS.COST
+		]]>
+		</select>
+
+
+</mapper>
