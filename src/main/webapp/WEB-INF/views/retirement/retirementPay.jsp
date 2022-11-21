@@ -68,7 +68,6 @@
                                 }
                             });
                     }
-
                     /* 부서별 사원 정보 그리드에 뿌리는 함수 */
                     function showEmpListGrid(grid) {
                         var columnDefs = [{
@@ -213,5 +212,6 @@
         </table>
     </div>
 </section>
+<%--섹션끝--%>
 </body>
 </html>
