@@ -231,8 +231,6 @@
         new agGrid.Grid(eGridDiv, gridOptions);
     }
 
-
-
     /* 삭제버튼 눌렀을 때 실행되는 함수 */
     function removeReceiptList(){
         var selectedRowData=gridOptions.api.getSelectedRows();

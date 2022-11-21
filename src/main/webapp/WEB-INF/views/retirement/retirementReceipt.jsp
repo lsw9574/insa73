@@ -82,7 +82,7 @@
             $("#print_receipt").click(printReceipt);
 
         });
-// asdfsadf
+
         /*퇴직금 영수증 신청 버튼누르면 실행*/
         function registRetirementReceipt() {
             $.ajax({
