@@ -78,7 +78,7 @@
             if(flag)
                 removeReceiptList(); //
         });
-//asdsadasdasdasasd
+
 
         /* 조회탭 */
         /* 조회 날짜 */
