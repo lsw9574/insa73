@@ -35,8 +35,8 @@
              , #{retirementRange}                                                   AS RETIREMENT_RANGE
              , #{hireDate}                                                          AS HIREDATE
              , #{retireDate}                                                        AS RETIREDATE
-             , #{retireDate}                                                        AS RETIREMENT_PAY_CHECK_DATE
-             , TO_CHAR(TO_DATE(#{retireDate}, 'YYYY-MM-DD') + 7, 'YYYY-MM-DD')      AS RETIREMENT_PAY_DATE
+             , TO_CHAR(A.RETIREMENT_APPLY_DATE, 'YYYY-MM-DD')                       AS RETIREMENT_PAY_CHECK_DATE
+             , TO_CHAR(A.RETIREMENT_APPLY_DATE + 7, 'YYYY-MM-DD')                   AS RETIREMENT_PAY_DATE
              , #{retirementPay}                                                     AS RETIREMENT_PAY
 
 
@@ -45,12 +45,14 @@
              DEPT D,
              POSITION P,
              DETAIL_CODE C,
-             WORKPLACE K
+             WORKPLACE K,
+             APPLY_RETIREMENT_RECEIPT A
         WHERE E.EMP_CODE = W.EMP_CODE
           AND E.DEPT_CODE = D.DEPT_CODE
           AND E.POSITION_CODE = P.POSITION_CODE
           AND C.DETAIL_CODE_NUMBER = K.WORKPLACE_CODE
           AND E.WORKPLACE_CODE = K.WORKPLACE_CODE
+          AND E.EMP_CODE = A.EMP_CODE
           AND E.EMP_CODE = #{empCode}
         ]]>
       </select>
@@ -62,25 +64,22 @@
         <result property="workplaceName" column="WORKPLACE_NAME"/>
     </resultMap>
 
-    <select id="selectRetirementList" parameterType="map" resultMap="retirementPersonResult">
+    <select id="selectRetirementList" parameterType="String" resultMap="retirementPersonResult">
                 <![CDATA[
         SELECT E.EMP_CODE
              , E.EMP_NAME
-             , TO_CHAR(W.RETIRE_DATE, 'YYYY-MM-DD') AS RETIRE_DATE
+             , TO_CHAR(R.RETIREMENT_APPLY_DATE, 'YYYY-MM-DD') AS RETIRE_DATE
              , D.DEPT_NAME
              , C.DETAIL_CODE_NAME                   AS WORKPLACE_NAME
-        FROM WORK_INFO W
-           , EMP E
+        FROM EMP E
            , DEPT D
            , DETAIL_CODE C
            , APPLY_RETIREMENT_RECEIPT R
-        WHERE W.EMP_CODE = #{empCode}
-          AND W.EMP_CODE = R.EMP_CODE
-          AND W.EMP_CODE = E.EMP_CODE
+        WHERE E.EMP_CODE = #{empCode}
+          AND E.EMP_CODE = R.EMP_CODE
           AND D.DEPT_CODE = E.DEPT_CODE
           AND E.WORKPLACE_CODE = C.DETAIL_CODE_NUMBER
-          AND R.RETIREMENT_APPLY = 'Y'
-          AND W.RETIRE_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND R.RETIREMENT_APPLY_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD')
             AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
         ]]>
     </select>
@@ -94,4 +93,14 @@
             )}
         ]]>
 	</update>
+    <insert id="insertRetirementReceipt" parameterType="map" statementType="CALLABLE">
+              <![CDATA[
+        {call P_INSERT_RETIREMENT_RECEIPT(
+                #{empCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN}
+            , #{errorCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT}
+            , #{errorMsg, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT}
+            )}
+        ]]>
+   </insert>
+
 </mapper>

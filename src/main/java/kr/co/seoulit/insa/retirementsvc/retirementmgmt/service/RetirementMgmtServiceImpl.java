@@ -45,23 +45,22 @@ public class RetirementMgmtServiceImpl implements RetirementMgmtService {
     @Override
     public RetirementReceiptTO viewReport(String empCode) {
         HashMap<String, Object> map = findRetirementPay(empCode);
-        ArrayList<RetirementPayTO> list = (ArrayList<RetirementPayTO>)map.get("result");
+        ArrayList<RetirementPayTO> list = (ArrayList<RetirementPayTO>) map.get("result");
         RetirementPayTO to = list.get(0);
-        return retirementReceiptMapper.selectReport(empCode,to.getRetirementRange(),to.getHiredate(),to.getRetiredate(),to.getRetirementPay());
+        return retirementReceiptMapper.selectReport(empCode, to.getRetirementRange(), to.getHiredate(), to.getRetiredate(), to.getRetirementPay());
     }
+
     @Override
     public ArrayList<RetirementPersonTO> findRetirementList(String empCode, String startDate, String endDate) {
-        System.out.println("서비스호출 되는지 확인");
         HashMap<String, Object> map = new HashMap<>();
         map.put("empCode", empCode);
         map.put("startDate", startDate);
         map.put("endDate", endDate);
 
-        ArrayList<RetirementPersonTO> retirementPersonList=null;
-        retirementPersonList=retirementReceiptMapper.selectRetirementList(map);
-        System.out.println("나와라 ㅅㅂ"+retirementPersonList);
+        ArrayList<RetirementPersonTO> retirementPersonList = retirementReceiptMapper.selectRetirementList(empCode, startDate, endDate);
         return retirementPersonList;
     }
+
     @Override
     public ResultTO retirementApply(RetirementPersonTO retirementPersonTO) {
         HashMap<String, String> map = new HashMap<>();
@@ -72,8 +71,19 @@ public class RetirementMgmtServiceImpl implements RetirementMgmtService {
         ResultTO resultTO = new ResultTO();
         resultTO.setErrorCode(map.get("errorCode"));
         resultTO.setErrorMsg(map.get("errorMsg"));
-        System.out.println(resultTO.getErrorCode()+","+resultTO.getErrorMsg());
+        System.out.println(resultTO.getErrorCode() + "," + resultTO.getErrorMsg());
 
         return resultTO;
     }
+
+    @Override
+    public HashMap<String, String> registRetirementReceipt(String empCode) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("empCode", empCode);
+        System.out.println("영수증임플:" + empCode);
+        retirementReceiptMapper.insertRetirementReceipt(map);
+        System.out.println(map.get("errorCode") + "," + map.get("errorMsg"));
+        return map;
+    }
+
 }

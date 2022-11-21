@@ -13,6 +13,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @RequestMapping("/retirementmgmt/*")
 @RestController
@@ -21,6 +22,24 @@ public class RetirementReceiptController {
     private RetirementMgmtService retirementMgmtService;
 
     ModelMap map = null;
+
+    @PostMapping("/registRetirementReceipt")
+    public ModelMap registRetirementReceipt(
+            @RequestParam String empCode
+            , HttpServletResponse response) {
+        map = new ModelMap();
+
+        try {
+            HashMap<String, String> resultMap = retirementMgmtService.registRetirementReceipt(empCode);
+            map.put("errorCode", resultMap.get("errorCode"));
+            map.put("errorMsg", resultMap.get("errorMsg"));
+        } catch (Exception dae) {
+            map.clear();
+            map.put("errorCode", -1);
+            map.put("errorMsg", dae.getMessage());
+        }
+        return map;
+    }
 
     @PutMapping("retirementApply")
     public ModelMap retirementApply(@RequestBody RetirementPersonTO retirementPersonTO) {
@@ -50,7 +69,7 @@ public class RetirementReceiptController {
 
         } catch (Exception dae) {
             map.clear();
-            map.put("errorCode", -2);
+            map.put("errorCode", -1);
             map.put("errorMsg", dae.getMessage());
         }
         return map;

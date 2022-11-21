@@ -46,12 +46,22 @@
             /* 신청, 사용 날짜 */
             getDatePicker($("#retirementDate"));
 
-            /* 영수증 신청 버튼  */
-            $("#retirement_receipt_Btn").click(function () {
+            /* 퇴사 신청 버튼  */
+            $("#retirement_Btn").click(function () {
                 var flag = confirm("퇴사를 신청하시겠습니까?");
                 if (flag)
-                    requireReceipt();
+                    // requireReceipt();
+                    modifyRetireDate();
             });
+
+            /*퇴직금 영수증 신청 버튼*/
+            $("#retirement_Receipt_Btn").click(function () {
+                var flag = confirm("퇴직금영수증을 신청하시겠습니까?");
+                if (flag)
+                    // requireReceipt();
+                    registRetirementReceipt();
+            });
+
 
             /* 조회탭 */
             /* 조회 날짜 */
@@ -73,16 +83,33 @@
 
         });
 
+        /*퇴직금 영수증 신청 버튼누르면 실행*/
+        function registRetirementReceipt() {
+            $.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/retirementmgmt/registRetirementReceipt",
+                data: { "empCode": empCode },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.errorCode < 0) {
+                        alert(data.errorMsg);
+                        return;
+                    } else {
+                        alert("퇴직금영수증을 신청하였습니다.");
+                    }
+                    location.reload();
+                }
+            });
+        }
 
-        /* 영수증 신청 */
 
-        function requireReceipt() {
+        /* 퇴사 신청 */
+        function modifyRetireDate() {
 
             var sendData = {
                 "empCode": empCode,
                 "retirementDate": $("#retirementDate").val()
             };
-
             $.ajax({
                 type: "PUT",
                 url: "${pageContext.request.contextPath}/retirementmgmt/retirementApply",
@@ -274,9 +301,14 @@
             </table>
             <hr>
             <div>
-                <br> <input type="button"
-                            class="ui-button ui-widget ui-corner-all"
-                            id="retirement_receipt_Btn" value="퇴사 신청">
+                <br>
+                <input type="button"
+                       class="ui-button ui-widget ui-corner-all"
+                       id="retirement_Btn" value="퇴사 신청">
+
+                <input type="button"
+                       class="ui-button ui-widget ui-corner-all"
+                       id="retirement_Receipt_Btn" value="퇴직금영수증 신청">
             </div>
         </div>
 

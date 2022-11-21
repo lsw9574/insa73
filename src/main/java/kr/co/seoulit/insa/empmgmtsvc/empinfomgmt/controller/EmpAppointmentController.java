@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 @RequestMapping("/empinfomgmt/*")
@@ -83,7 +81,7 @@ public class EmpAppointmentController {
     }
 
     @PostMapping("registAppoint")
-    public ModelMap registAppointment(@RequestParam String after1,String after2,String after3,String empCode,String hosu) {
+    public ModelMap registAppointment(@RequestParam String after1, String after2, String after3, String empCode, String hosu) {
         map = new ModelMap();
         try {
             System.out.println(after1);
