@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.seoulit.insa.commsvc.foudinfomgmt.to.HolidayTO;
 import kr.co.seoulit.insa.commsvc.systemmgmt.exception.WorkplaceMissMatchException;
 import kr.co.seoulit.insa.commsvc.systemmgmt.to.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -290,5 +291,24 @@ public class SystemMgmtServiceImpl implements SystemMgmtService {
 		return authadminList;
 
 	}
+	@Override
+	public void batchCodelistProcess(ArrayList<DetailCodeTO> detailCodeList){
+		for (DetailCodeTO detailCodeTO : detailCodeList) {
+			switch (detailCodeTO.getStatus()) {
 
+				case "update":
+					detailCodeMapper.updateDetailCode(detailCodeTO);
+					break;
+
+				case "insert":
+					detailCodeMapper.registDetailCode(detailCodeTO);
+					break;
+
+				case "delete":
+					detailCodeMapper.deleteDetailCode(detailCodeTO);
+					break;
+
+			}
+		}
+	}
 }

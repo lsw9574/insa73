@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class DetailCodeTO {
+public class DetailCodeTO extends BaseTO{
 	
 	String detailCodeNumber,codeNumber, detailCodeName, detailCodeNameusing;
 

@@ -160,7 +160,7 @@
 				headerName : "상태",
 				field : "status"
 			} ];
-			gridOptions = {
+			detailGridOptions = {
 				columnDefs : columnDefs,
 				rowData : detailCodeList,
 				defaultColDef : {
@@ -193,12 +193,21 @@
 				// GRID READY 이벤트, 사이즈 자동조정
 				onGridReady : function(event) { event.api.sizeColumnsToFit(); },
 				// 창 크기 변경 되었을 때 이벤트
-				onGridSizeChanged : function(event) { event.api.sizeColumnsToFit(); }
+				onGridSizeChanged : function(event) { event.api.sizeColumnsToFit(); },
+				onCellEditingStopped: function (event) {    //event에는 변경된 객체가 들어간다
+					console.log(event);
+					console.log(event.data.status);
+					console.log(event.data);
+					if (event.data.status == "normal") {
+						event.data.status = "update"
+					}
+					detailGridOptions.api.updateRowData({update: [event.data]});    //현재 그리드 수정(event에 들어와있는 객체를 수정한다.)
+				}
 			}
 			$('#detailCodeList_grid').children().remove();
 
 			var eGridDiv = document.querySelector('#detailCodeList_grid');
-			new agGrid.Grid(eGridDiv, gridOptions);
+			new agGrid.Grid(eGridDiv, detailGridOptions);
 		}
 		// 그리드에 행 추가하는 함수
 		function createNewRowData() {
@@ -216,19 +225,41 @@
 
 		function addGridRow() { // 비어있는 열 하나를 추가함
 			var newItem = createNewRowData();
-			gridOptions.api.updateRowData({add: [newItem]});
-			getRowData();
+			detailGridOptions.api.updateRowData({add: [newItem]});
 		}
 
-		function getRowData() { //추가된 열에 데이터를 집어넣음
-			addrowData = [];
-			gridOptions.api.forEachNode(function (node) {
+		function saveGridRow() { //추가된 열에 데이터를 집어넣음
+			let addrowData = [];
+			detailGridOptions.api.forEachNode(function (node) {
 				addrowData.push(node.data);
 			});
-			// console.log('Row Data:');
-			console.log(addrowData);
-		}
+			let sendData = JSON.stringify(addrowData);
 
+			$.ajax({
+				type: "PUT",
+				url: "${pageContext.request.contextPath}/systemmgmt/codelist",
+				data: sendData,
+				contentType: "application/json",
+				dataType: "json",
+				success: function (sendData) {
+					if (sendData.errorCode < 0) {
+						alert("저장에 실패했습니다");
+					} else {
+						alert("저장되었습니다");
+					}
+					location.reload();
+				}
+			});
+		}
+		function removeGirdRow(){
+			let selectedData = detailGridOptions.api.getSelectedRows()[0];
+			if (selectedData.status == "normal") {
+				selectedData.status = 'delete';
+			}
+
+			detailGridOptions.api.updateRowData({update: [selectedData]});
+
+		}
 
 	</script>
 </head>

@@ -48,4 +48,5 @@ public interface SystemMgmtService {
 	public void modifyAuthority(String empCode, String adminCode);
 
 	public ArrayList<AdminCodeTO> authadminCodeList(String empno);
+	public void batchCodelistProcess(ArrayList<DetailCodeTO>detailCodeList);
 }

@@ -7,10 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import kr.co.seoulit.insa.commsvc.systemmgmt.service.SystemMgmtService;
 import kr.co.seoulit.insa.commsvc.systemmgmt.to.CodeTO;
 import kr.co.seoulit.insa.commsvc.systemmgmt.to.DetailCodeTO;
@@ -41,6 +38,23 @@ public class CodeListController {
             map.clear();
             map.put("errorCode", -1);
             map.put("errorMsg", dae.getMessage());
+        }
+        return map;
+    }
+    @PutMapping("codelist")
+    public ModelMap batchCodelist(@RequestBody ArrayList<DetailCodeTO> detailCodeList) {
+
+        map = new ModelMap();
+
+        try {
+            systemMgmtService.batchCodelistProcess(detailCodeList);
+            map.put("errorMsg", "success");
+            map.put("errorCode", 0);
+
+        } catch (Exception e) {
+            map.clear();
+            map.put("errorCode", -1);
+            map.put("errorMsg", e.getMessage());
         }
         return map;
     }
