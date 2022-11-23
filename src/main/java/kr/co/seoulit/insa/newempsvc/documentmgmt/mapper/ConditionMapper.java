@@ -8,5 +8,5 @@ import kr.co.seoulit.insa.newempsvc.documentmgmt.to.ConditionTO;
 public interface ConditionMapper {
 	public void registCondition(ConditionTO nemp);
 
-	public ArrayList<ConditionTO> FindAllTermlist();
+	public ArrayList<ConditionTO> FindAllTermlist(String workplaceCode);
 }

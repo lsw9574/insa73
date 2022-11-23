@@ -4,6 +4,7 @@
 <mapper namespace="kr.co.seoulit.insa.newempsvc.documentmgmt.mapper.ConditionMapper">
 
     <resultMap type="kr.co.seoulit.insa.newempsvc.documentmgmt.to.ConditionTO" id="resumeResult">
+        <result property="workplaceCode" column="WORKPLACE_CODE"/>
         <result property="min_age" column="MIN_AGE"/>
         <result property="max_age" column="MAX_AGE"/>
         <result property="dept" column="DEPT"/>
@@ -24,15 +25,18 @@
                 #{dept},
                 #{last_school},
                 #{career},
-                #{hwp_file})
+                #{hwp_file},
+                #{workplaceCode})
     </insert>
 
-    <select id="FindAllTermlist" parameterType="kr.co.seoulit.insa.newempsvc.documentmgmt.to.ConditionTO"
+    <select id="FindAllTermlist" parameterType="String"
             resultMap="resumeResult">
         SELECT
             year, half, min_age, max_age, dept, last_school, career, hwp_file
         FROM
             TERMS_EMP
+        WHERE
+            WORKPLACE_CODE = #{workplaceCode}
         ORDER BY
             YEAR DESC, HALF ASC
     </select>

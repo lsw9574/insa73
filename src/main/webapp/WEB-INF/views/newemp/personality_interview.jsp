@@ -28,17 +28,15 @@ $(document).ready(function(){
 		findNew_emp();
 	})
 });
+
 function findNew_emp(){ //실행하자마자 데이터를 가져옴
 	$("canvas").val("");
-	saveInfo();
-	const sendData = JSON.stringify(bean);
 	let ResumeListGridOptions={};
 	$.ajax({
 		type : "GET" ,
 		url:'${pageContext.request.contextPath}/newempinfomgmt/piresultnewemp',
 		dataType:"json",
-		data:
-		{"sendData" : sendData},
+		data: {"sendyear": $("#year").val(),"half":$("#half").val(),"workplaceCode":"${sessionScope.workplaceCode}"},
 		success : function(data){
 			if(data.errorCode < 0){
 				let str = "내부 서버 오류가 발생했습니다\n";
@@ -199,12 +197,7 @@ function table_Data(nodeData)
 	$("#p_avg").val(p_avg);
 	$("#i_avg").val(i_avg);
 }
-function saveInfo()
-{
-	
-	bean.year = $("#year").val();
-	bean.half = $("#half").val();
-}
+
 </script>
 </head>
 <body>

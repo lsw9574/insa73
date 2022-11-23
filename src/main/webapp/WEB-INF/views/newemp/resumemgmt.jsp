@@ -13,15 +13,8 @@ $(document).ready(function(){
 		findResumeInfo();
 	})
 });
-function saveInfo()
-{
-	bean.year=$("#year").val();
-	bean.half=$("#half").val();
-	console.log(bean);
-}
 function findResumeInfo(){
 	$("#empSelect_grid").html("");
-	saveInfo();
 	const sendData = JSON.stringify(bean);
 	let ResumeListGridOptions={};
 	$.ajax({
@@ -29,7 +22,7 @@ function findResumeInfo(){
 		url:'${pageContext.request.contextPath}/newempinfomgmt/resumemgmt',
 		dataType:"json",
 		data:
-		{"sendData" : sendData},
+		{"sendyear" : $("#year").val(),"half":$("#half").val(),"workplaceCode":"${sessionScope.workplaceCode}"},
 		success : function(data){
 			if(data.errorCode < 0){
 				let str = "내부 서버 오류가 발생했습니다\n";

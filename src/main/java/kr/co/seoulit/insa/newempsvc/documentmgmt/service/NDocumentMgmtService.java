@@ -11,7 +11,7 @@ import kr.co.seoulit.insa.newempsvc.documentmgmt.to.RecruitmentTO;
 public interface NDocumentMgmtService {
 	public void registCondition(ConditionTO nemp);
 
-	public ArrayList<ConditionTO> FindAllTermlist();
+	public ArrayList<ConditionTO> FindAllTermlist(String workplaceCode);
 
 	public void InsertEducationData(ArrayList<GanttDataTO> dataList, ArrayList<GanttLinksTO> linksList);
 
@@ -19,7 +19,7 @@ public interface NDocumentMgmtService {
 
 	public ArrayList<GanttLinksTO> findganttLinksList();
 
-	public ArrayList<RecruitmentTO> FindNewemprecruit(int year, String half);
+	public ArrayList<RecruitmentTO> FindNewemprecruit(int year, String half,String workplaceCode);
 
 	public void RegisterEmp(ArrayList<RecruitmentTO> recruitList);
 	

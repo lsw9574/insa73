@@ -10,8 +10,9 @@ $(document).ready(function(){
 });
 function yearhalfInfo()
 {
-	bean.year = $("#year").val();
+	bean.sendyear = $("#year").val();
 	bean.half = $("#half").val();
+	bean.workplaceCode = "${sessionScope.workplaceCode}";
 }
 function applicant(){
 	$("#grid").html("");
@@ -21,7 +22,7 @@ function applicant(){
 		type : "GET" ,
 		url:'${pageContext.request.contextPath}/newempinfomgmt/applicant',
 		dataType:"json",
-		data : {"sendData" : sendData},
+		data : bean,
 		success : function(data){
 			console.log(data);
 			if(data.errorCode < 0){

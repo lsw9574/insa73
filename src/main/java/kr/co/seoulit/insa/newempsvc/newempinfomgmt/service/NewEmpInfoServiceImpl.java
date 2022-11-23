@@ -26,12 +26,13 @@ public class NewEmpInfoServiceImpl implements NewEmpInfoService
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<NewResumeTO> findresumeList(int year, String half) {
+	public ArrayList<NewResumeTO> findresumeList(int year, String half,String workplaceCode) {
 		// TODO Auto-generated method stub
 		System.out.println(year+half);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("year", (Integer)year);
 		map.put("half", half);
+		map.put("workplaceCode", workplaceCode);
 		newempMapper.findresumeList(map);
 		
 		ArrayList<NewResumeTO> resumelist = (ArrayList<NewResumeTO>)map.get("result");
@@ -39,21 +40,23 @@ public class NewEmpInfoServiceImpl implements NewEmpInfoService
 	}
 
 	@Override
-	public ArrayList<PersonalityInterviewTO> findPInewempList(int year, String half) {
+	public ArrayList<PersonalityInterviewTO> findPInewempList(int year, String half,String workplaceCode) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("year", year);
 		map.put("half", half);
+		map.put("workplaceCode", workplaceCode);
 		return newempMapper.findPInewempList(map);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<ApplicantTO> FindAllSuccessApplicant(int year, String half) {
+	public ArrayList<ApplicantTO> FindAllSuccessApplicant(int year, String half,String workplaceCode) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("year", (Integer)year);
 		map.put("half", half);
+		map.put("workplaceCode", workplaceCode);
 		applicantMapper.FindAllSuccessApplicant(map);
 		ArrayList<ApplicantTO> FindAllSuccessApplicantList = (ArrayList<ApplicantTO>) map.get("result");
 		return FindAllSuccessApplicantList;

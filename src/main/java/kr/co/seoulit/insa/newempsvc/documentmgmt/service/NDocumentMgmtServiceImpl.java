@@ -32,9 +32,9 @@ public class NDocumentMgmtServiceImpl implements NDocumentMgmtService {
 	}
 
 	@Override
-	public ArrayList<ConditionTO> FindAllTermlist() {
+	public ArrayList<ConditionTO> FindAllTermlist(String workplaceCode) {
 		// TODO Auto-generated method stub
-		return conditionMapper.FindAllTermlist();
+		return conditionMapper.FindAllTermlist(workplaceCode);
 	}
 
 	@Override
@@ -60,11 +60,12 @@ public class NDocumentMgmtServiceImpl implements NDocumentMgmtService {
 	}
 
 	@Override
-	public ArrayList<RecruitmentTO> FindNewemprecruit(int year, String half) {
+	public ArrayList<RecruitmentTO> FindNewemprecruit(int year, String half,String workplaceCode) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("year", year);
 		map.put("half", half);
+		map.put("workplaceCode", workplaceCode);
 		return approvalMapper.findnewempcruit(map);
 	}
 

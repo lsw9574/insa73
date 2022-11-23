@@ -28,17 +28,14 @@ public class RecruitmentApprovalController
 	ModelMap map = null;
 
 	@GetMapping("newemprecruit")
-	public ModelMap newempRecruitInfo(HttpServletRequest request)
+	public ModelMap newempRecruitInfo(@RequestParam String sendyear,String half,String workplaceCode)
 	{
-		String sendData = request.getParameter("sendData");
 		map = new ModelMap();
 		try
 		{
-			JSONObject json = JSONObject.fromObject(sendData);
-			int year = Integer.parseInt((String) json.get("year"));
-			String half = json.getString("half");
+			int year = Integer.parseInt(sendyear);
 
-			ArrayList<RecruitmentTO> list = documentMgmtService.FindNewemprecruit(year, half);
+			ArrayList<RecruitmentTO> list = documentMgmtService.FindNewemprecruit(year, half,workplaceCode);
 			for ( RecruitmentTO to : list )
 			{
 				if ( to.getApprovalStatus().equals("W") )

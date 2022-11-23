@@ -23,6 +23,7 @@
         	{call LIST_APPLICANT(
         	#{year, jdbcType=INTEGER , javaType=java.lang.Integer, mode=IN},
         	#{half, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+			#{workplaceCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
         	#{result, jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT , resultMap=successApplicant}
         	)}
     	]]>	

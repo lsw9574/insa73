@@ -37,6 +37,7 @@
         {call RESUME_CONDITION(
                 #{year, jdbcType=INTEGER , javaType=java.lang.Integer, mode=IN},
                 #{half, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
+                #{workplaceCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN},
                 #{result, jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT , resultMap=findresumeList}
             )}
         ]]>
@@ -61,6 +62,7 @@
         WHERE pi.P_CODE = ner.P_CODE
           AND ner.year = #{year}
           AND ner.half = #{half}
+          AND ner.WORKPLACE_CODE = #{workplaceCode}
     </select>
 
     <update id="UpdateResumeNewemp" parameterType="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.NewResumeTO">
@@ -94,7 +96,8 @@
     <insert id="InsertResume" parameterType="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.NewResumeTO">
    <![CDATA[
         INSERT INTO NEW_EMP_RESUME
-        (YEAR,
+        (WORKPLACE_CODE,
+         YEAR,
          HALF,
          P_CODE,
          P_NAME,
@@ -106,7 +109,8 @@
          P_DEPT,
          P_LAST_SCHOOL,
          P_CAREER)
-        SELECT #{year},
+        SELECT #{workplace},
+               #{year},
                #{half},
                #{p_code},
                #{p_name},
@@ -124,7 +128,8 @@
                   TERMS_EMP
               WHERE
                   ( YEAR = #{year}
-                AND HALF = #{half} )
+                AND HALF = #{half}
+                AND WORKPLACE_CODE = #{workplace})
                 AND
                   ( MIN_AGE <= #{p_age}
                 AND MAX_AGE >= #{p_age} )

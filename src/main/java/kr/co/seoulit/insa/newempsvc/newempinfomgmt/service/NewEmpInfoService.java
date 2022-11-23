@@ -8,11 +8,11 @@ import kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.PersonalityInterviewTO;
 
 public interface NewEmpInfoService {
 	
-	public ArrayList<NewResumeTO> findresumeList(int year, String half);
+	public ArrayList<NewResumeTO> findresumeList(int year, String half,String workplaceCode);
 	
-	public ArrayList<PersonalityInterviewTO> findPInewempList(int year, String half);
+	public ArrayList<PersonalityInterviewTO> findPInewempList(int year, String half,String workplaceCode);
 	
-	public ArrayList<ApplicantTO> FindAllSuccessApplicant(int year, String half);
+	public ArrayList<ApplicantTO> FindAllSuccessApplicant(int year, String half,String workplaceCode);
 	
 	public void updateresumeNewemp(NewResumeTO nemp);
 	

@@ -74,12 +74,12 @@ public class WorkforcePlanningController {
 	}
 	
 	@GetMapping("termslist")
-	public ModelMap termList()
+	public ModelMap termList(@RequestParam String workplaceCode)
 	{		
 		map = new ModelMap();
 		try
 		{
-			ArrayList<ConditionTO> termlist = documentMgmtService.FindAllTermlist();
+			ArrayList<ConditionTO> termlist = documentMgmtService.FindAllTermlist(workplaceCode);
 			String tempFilename;
 			StringTokenizer st = null;
 			for(ConditionTO to : termlist)

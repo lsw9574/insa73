@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=false)
 public class NewResumeTO
 {
-	private String p_code, p_name, p_gender, p_address, p_tel, p_dept, p_last_school, p_career, half, p_email; 
+	private String workplace,p_code, p_name, p_gender, p_address, p_tel, p_dept, p_last_school, p_career, half, p_email;
 	private int p_age, year;
 	
 	public String getP_email() {

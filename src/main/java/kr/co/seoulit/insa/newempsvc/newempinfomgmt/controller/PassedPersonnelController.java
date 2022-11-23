@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.seoulit.insa.newempsvc.newempinfomgmt.service.NewEmpInfoService;
@@ -23,15 +24,12 @@ public class PassedPersonnelController {
 	ModelMap map = null;
 
 	@GetMapping("applicant")
-	public ModelMap applicantList(HttpServletRequest request) {
+	public ModelMap applicantList(@RequestParam String sendyear,String half,String workplaceCode) {
 		map = new ModelMap();
-		String sendData = request.getParameter("sendData");
 		try
 		{
-			JSONObject json = JSONObject.fromObject(sendData);
-			int year = Integer.parseInt( (String) json.get("year") );
-			String half = (String) json.get("half");
-			ArrayList<ApplicantTO> applist = newempInfoService.FindAllSuccessApplicant(year, half);
+			int year = Integer.parseInt( sendyear );
+			ArrayList<ApplicantTO> applist = newempInfoService.FindAllSuccessApplicant(year, half,workplaceCode);
 			for(ApplicantTO to : applist)
 			{
 				System.out.println("이름 : "+to.getName());

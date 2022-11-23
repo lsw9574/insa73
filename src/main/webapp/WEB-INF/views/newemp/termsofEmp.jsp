@@ -66,6 +66,7 @@
 			nempBean.year=$("#year").val();
 			nempBean.half=$("#half").val();
 			nempBean.hwp_file=$("#hwp_file").val();
+			nempBean.workplaceCode=${sessionScope.workplaceCode};
 		}
 		function condition_Form()
 		{//JSON형태로 nempBean데이터를 전송
@@ -124,6 +125,7 @@
 			$.ajax
 			({
 				url:'${pageContext.request.contextPath}/documentmgmt/termslist',
+				data : {"workplaceCode":"${sessionScope.workplaceCode}"},
 				dataType:"json",
 				success : function(data)
 				{
@@ -137,11 +139,11 @@
 						return;
 					}
 					findTermsBean = data.termlist;
-					showTermsListGrid(findTermsBean);
+					showTermsListGrid();
 				}
 			});
 		}
-		function showTermsListGrid(findTermsBean)
+		function showTermsListGrid()
 		{
 			let TermsListGridOptions={};
 			const columnDef =

@@ -26,15 +26,12 @@ public class ResumeManagementContoller
 	ModelMap map = null;
 
 	@GetMapping("resumemgmt")
-	public ModelMap resumeList(HttpServletRequest request)
+	public ModelMap resumeList(@RequestParam String sendyear,String half, String workplaceCode)
 	{
-		String sendData = request.getParameter("sendData");
 		map = new ModelMap();
 		try {
-			JSONObject json = JSONObject.fromObject(sendData);
-			int year = Integer.parseInt((String) json.get("year"));
-			String half = json.getString("half");
-			ArrayList<NewResumeTO> list = newempInfoService.findresumeList(year, half);
+			int year = Integer.parseInt(sendyear);
+			ArrayList<NewResumeTO> list = newempInfoService.findresumeList(year, half,workplaceCode);
 			map.put("list", list);
 
 		} catch (Exception e) {

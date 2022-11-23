@@ -14,6 +14,7 @@ public class ConditionTO {
 	private int year;
 	private String hwp_file;
 	private String career;
+	private String workplaceCode;
 	
 	public String getDept() {
 		return dept;
