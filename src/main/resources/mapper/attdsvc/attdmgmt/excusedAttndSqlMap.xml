@@ -103,7 +103,7 @@
           AND R.REQUEST_DATE = TO_DATE(#{applyDay}
             , 'YYYY-MM-DD')
           AND R.EMP_CODE = E.EMP_CODE
-          AND R.WORKPLACE_CODE = #{workplaceCode}
+          AND E.WORKPLACE_CODE = #{workplaceCode}
         ]]>
 	</select>
 
@@ -133,7 +133,7 @@
           AND TO_DATE(#{endDate}
             , 'YYYY-MM-DD')
           AND R.EMP_CODE = E.EMP_CODE
-          AND R.WORKPLACE_CODE = #{workplaceCode}
+          AND E.WORKPLACE_CODE = #{workplaceCode}
         ]]>
 	</select>
 
