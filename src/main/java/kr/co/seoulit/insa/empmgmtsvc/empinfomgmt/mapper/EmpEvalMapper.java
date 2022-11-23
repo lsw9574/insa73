@@ -10,7 +10,7 @@ import kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.EmpEvalTO;
 @Mapper
 public interface EmpEvalMapper {
 	
-	public ArrayList<EmpEvalTO> selectEmpEval();
+	public ArrayList<EmpEvalTO> selectEmpEval(String workplaceCode);
 	public ArrayList<EmpEvalTO> selectEmpEvalDept(HashMap<String, String> map);
 	
 	public void insertEmpEval(EmpEvalTO empevalto);

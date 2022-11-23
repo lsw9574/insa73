@@ -145,6 +145,7 @@ function saveInfo(){
       empBean.hobong=$("#txt_hobong").val();
       empBean.occupation=$("#txt_occupation").val();
       empBean.employment=$("#txt_employment").val();
+      empBean.workplaceCode="${sessionScope.workplaceCode}";
       
    }
    

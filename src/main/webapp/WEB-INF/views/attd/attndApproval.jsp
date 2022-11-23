@@ -88,7 +88,8 @@ var restAttdList = [];
 			data:{
 				"deptName" : deptName,
 				"startDate" : startDate,
-				"endDate" : $("#search_restAttd_endDate").val()
+				"endDate" : $("#search_restAttd_endDate").val(),
+				"workplaceCode":"${sessionScope.workplaceCode}"
 			},
 			dataType:"json",
 			success : function(data){

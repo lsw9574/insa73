@@ -30,10 +30,11 @@ public class AttdAppvlServiceImpl implements AttdAppvlService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<DayAttdMgtTO> findDayAttdMgtList(String applyDay) {
+	public ArrayList<DayAttdMgtTO> findDayAttdMgtList(String applyDay,String workplaceCode) {
 
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("applyDay",applyDay);
+		map.put("workplaceCode",workplaceCode);
 		dayAttdMgtMapper.batchDayAttdMgtProcess(map);
 		
 		return (ArrayList<DayAttdMgtTO>) map.get("result");
@@ -51,10 +52,11 @@ public class AttdAppvlServiceImpl implements AttdAppvlService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<MonthAttdMgtTO> findMonthAttdMgtList(String applyYearMonth) {
+	public ArrayList<MonthAttdMgtTO> findMonthAttdMgtList(String applyYearMonth,String workplaceCode) {
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("applyYearMonth", applyYearMonth);
+		map.put("workplaceCode", workplaceCode);
 
 		monthAttdMgtMapper.batchMonthAttdMgtProcess(map);
 
@@ -73,9 +75,10 @@ public class AttdAppvlServiceImpl implements AttdAppvlService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<AnnualLeaveMgtTO> findAnnualVacationMgtList(String applyYearMonth) {
+	public ArrayList<AnnualLeaveMgtTO> findAnnualVacationMgtList(String applyYearMonth,String workplaceCode) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("applyYearMonth", applyYearMonth);
+		map.put("workplaceCode", workplaceCode);
 
 		annualVacationMgtMapper.batchAnnualVacationMgtProcess(map);
 
@@ -107,15 +110,16 @@ public class AttdAppvlServiceImpl implements AttdAppvlService {
 	}
 
 	@Override
-	public ArrayList<RestAttdTO> findRestAttdListByDept(String deptName, String startDate, String endDate) {
+	public ArrayList<RestAttdTO> findRestAttdListByDept(String deptName, String startDate, String endDate,String workplaceCode) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		ArrayList<RestAttdTO> restAttdList = null;
 		map.put("deptName", deptName);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		map.put("workplaceCode", workplaceCode);
 		
 		if (deptName.equals("모든부서")) {
-			restAttdList = excusedAttndMapper.selectRestAttdListByAllDept(startDate);
+			restAttdList = excusedAttndMapper.selectRestAttdListByAllDept(startDate,workplaceCode);
 		} else {
 
 			restAttdList = excusedAttndMapper.selectRestAttdListByDept(map);

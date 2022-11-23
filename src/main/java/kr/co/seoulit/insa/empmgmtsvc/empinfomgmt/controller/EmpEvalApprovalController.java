@@ -22,12 +22,12 @@ public class EmpEvalApprovalController {
 	ModelMap map = null;
 	
 	@GetMapping("evaluation-approval")
-	public ModelMap findEmpEvalAppoList(@RequestParam String deptName,String year) {
+	public ModelMap findEmpEvalAppoList(@RequestParam String deptName,String year,String workplaceCode) {
 		
 		map = new ModelMap();
 		
 		try {	
-			ArrayList<EmpEvalTO> empEvalList = empInfoService.findEmpEval(deptName,year);
+			ArrayList<EmpEvalTO> empEvalList = empInfoService.findEmpEval(deptName,year,workplaceCode);
 			map.put("empEvalList", empEvalList);
 			map.put("errorMsg", "success");
 			map.put("errorCode", 0);

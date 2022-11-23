@@ -11,9 +11,9 @@ public interface EmpMapper {
 	
 	public EmpTO selectEmp(String empName);
 	public String selectLastEmpCode();
-	public ArrayList<EmpTO> selectEmpList();
-	public ArrayList<EmpTO> selectEmpListD(String dept);
-	public ArrayList<EmpTO> selectEmpListN(String name);
+	public ArrayList<EmpTO> selectEmpList(String workplaceCode);
+	public ArrayList<EmpTO> selectEmpListD(String dept,String workplaceCode);
+	public ArrayList<EmpTO> selectEmpListN(String name,String workplaceCode);
 	public String getEmpCode(String name);
 	public EmpTO selectEmployee(String empCode);
 

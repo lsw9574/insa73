@@ -42,13 +42,13 @@ public class ReceiptProofController {
 
 	
 	@GetMapping("receipt-proof")
-	public ModelMap proofLookupList(@RequestParam String empCode,String startDate,String endDate,String Code) {
+	public ModelMap proofLookupList(@RequestParam String empCode,String startDate,String endDate,String Code,String workplaceCode) {
 		
 		map = new ModelMap();
 
 		try {
 
-			ArrayList<proofTO> proofList = documentMgmtService.proofLookupList(empCode,Code,startDate, endDate);
+			ArrayList<proofTO> proofList = documentMgmtService.proofLookupList(empCode,Code,startDate, endDate,workplaceCode);
 			map.put("proofList", proofList);
 			map.put("errorMsg", "success");
 			map.put("errorCode", 0);

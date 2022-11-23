@@ -60,16 +60,16 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 	}
 
 	@Override
-	public ArrayList<EmpTO> findEmpList(String deptName) {
+	public ArrayList<EmpTO> findEmpList(String deptName,String workplaceCode) {
 
 		ArrayList<EmpTO> empList = null;
 		if (deptName.equals("전체부서")) {
-			empList = empMapper.selectEmpList();
+			empList = empMapper.selectEmpList(workplaceCode);
 		} else if (deptName.substring(deptName.length() - 1, deptName.length()).equals("팀")) {
-			empList = empMapper.selectEmpListD(deptName);
+			empList = empMapper.selectEmpListD(deptName,workplaceCode);
 
 		} else {
-			empList = empMapper.selectEmpListN(deptName);
+			empList = empMapper.selectEmpListN(deptName,workplaceCode);
 		}
 		return empList;
 
@@ -95,6 +95,7 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 		map.put("hobong", emp.getHobong());
 		map.put("occupation", emp.getOccupation());
 		map.put("employment", emp.getEmployment());
+		map.put("workplaceCode", emp.getWorkplaceCode());
 
 		empMapper.registEmployee(map);
 
@@ -197,23 +198,24 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 	}
 
 	@Override
-	public ArrayList<EmpEvalTO> findEmpEval() {
+	public ArrayList<EmpEvalTO> findEmpEval(String workplaceCode) {
 
 		ArrayList<EmpEvalTO> empevallsit = null;
-		empevallsit = empEvalMapper.selectEmpEval();
+		empevallsit = empEvalMapper.selectEmpEval(workplaceCode);
 		return empevallsit;
 
 	}
 
 	@Override
-	public ArrayList<EmpEvalTO> findEmpEval(String dept, String year) {
+	public ArrayList<EmpEvalTO> findEmpEval(String dept, String year,String workplaceCode) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("deptName", dept);
 		map.put("apply_day", year);
+		map.put("workplaceCode", workplaceCode);
 		ArrayList<EmpEvalTO> empevallsit = null;
 
 		if (dept.equals("모든부서")) {
-			empevallsit = empEvalMapper.selectEmpEval();
+			empevallsit = empEvalMapper.selectEmpEval(workplaceCode);
 		} else {
 			empevallsit = empEvalMapper.selectEmpEvalDept(map);
 		}

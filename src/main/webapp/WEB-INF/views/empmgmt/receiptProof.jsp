@@ -163,7 +163,8 @@
                     "empCode": empCode,
                     "startDate": startVar,
                     "endDate": endVar,
-                    "code": code
+                    "code": code,
+                    "workplaceCode":"${sessionScope.workplaceCode}"
                 },
                 dataType: "json",
                 success: function (data) {

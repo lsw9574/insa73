@@ -65,7 +65,8 @@ var monthAttdMgtList = [];
 		$.ajax({
 			url:"${pageContext.request.contextPath}/attdappvl/month-attnd",
 			data:{
-				"applyYearMonth" : $("#searchYearMonth").val()
+				"applyYearMonth" : $("#searchYearMonth").val(),
+				"workplaceCode":"${sessionScope.workplaceCode}"
 			},
 			dataType:"json",
 			success : function(data){

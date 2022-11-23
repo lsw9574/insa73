@@ -20,11 +20,11 @@ public class MonthlyAttendanceMgtController {
 	ModelMap map = null;
 	
 	@GetMapping("month-attnd")
-	public ModelMap findMonthAttdMgtList(@RequestParam String applyYearMonth){
+	public ModelMap findMonthAttdMgtList(@RequestParam String applyYearMonth,String workplaceCode){
 		
 		map = new ModelMap();
 		try {
-			ArrayList<MonthAttdMgtTO> monthAttdMgtList = attdAppvlService.findMonthAttdMgtList(applyYearMonth);
+			ArrayList<MonthAttdMgtTO> monthAttdMgtList = attdAppvlService.findMonthAttdMgtList(applyYearMonth,workplaceCode);
 			map.put("monthAttdMgtList", monthAttdMgtList);
 			map.put("errorMsg","success");
 			map.put("errorCode", 0);

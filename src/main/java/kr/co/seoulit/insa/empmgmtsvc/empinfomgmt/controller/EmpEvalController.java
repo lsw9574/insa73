@@ -39,11 +39,11 @@ public class EmpEvalController {
 	
 	
 	@GetMapping("evaluation")
-	public ModelMap findEmpEval(){
+	public ModelMap findEmpEval(@RequestParam String workplaceCode){
 		map = new ModelMap();		
 		try{
 			
-			ArrayList<EmpEvalTO> empevalList = empInfoService.findEmpEval();			
+			ArrayList<EmpEvalTO> empevalList = empInfoService.findEmpEval(workplaceCode);
 			map.put("empevalList", empevalList);
 			map.put("errorMsg","success");
 			map.put("errorCode", 0);

@@ -2,43 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.seoulit.insa.attdsvc.attdappvl.mapper.MonthlyAttndMgtMapper">
-	
-	<resultMap type="monthAttdMgtTO" id="monthAttdMgtResult">
-		<result property="empCode" column="EMP_CODE" />
-		<result property="empName" column="EMP_NAME" />
-		<result property="applyYearMonth" column="APPLY_YEAR_MONTH" />
-		<result property="basicWorkDays" column="BASIC_WORK_DAYS" />
-		<result property="weekdayWorkDays" column="WEEKDAY_WORK_DAYS" />
-		<result property="basicWorkHour" column="BASIC_WORK_HOUR" />
-		<result property="workHour" column="WORK_HOUR" />
-		<result property="overWorkHour" column="OVER_WORK_HOUR" />
-		<result property="nightWorkHour" column="NIGHT_WORK_HOUR" />
-		<result property="holidayWorkDays" column="HOLIDAY_WORK_DAYS" />
-		<result property="earlyLeaveDays" column="EARLY_LEAVE_DAYS" />
-		<result property="holidayWorkHour" column="HOLIDAY_WORK_HOUR" />
-		<result property="lateDays" column="LATE_DAYS" />
-		<result property="absentDays" column="ABSENT_DAYS" />
-		<result property="halfHolidays" column="HALF_HOLIDAYS" />
-		<result property="Holidays" column="HOLIDAYS" />
-		<result property="finalizeStatus" column="FINALIZE_STATUS" />
-	</resultMap>
 
-   	<select id="batchMonthAttdMgtProcess" parameterType="String" statementType="CALLABLE">
+    <resultMap type="monthAttdMgtTO" id="monthAttdMgtResult">
+        <result property="empCode" column="EMP_CODE"/>
+        <result property="empName" column="EMP_NAME"/>
+        <result property="applyYearMonth" column="APPLY_YEAR_MONTH"/>
+        <result property="basicWorkDays" column="BASIC_WORK_DAYS"/>
+        <result property="weekdayWorkDays" column="WEEKDAY_WORK_DAYS"/>
+        <result property="basicWorkHour" column="BASIC_WORK_HOUR"/>
+        <result property="workHour" column="WORK_HOUR"/>
+        <result property="overWorkHour" column="OVER_WORK_HOUR"/>
+        <result property="nightWorkHour" column="NIGHT_WORK_HOUR"/>
+        <result property="holidayWorkDays" column="HOLIDAY_WORK_DAYS"/>
+        <result property="earlyLeaveDays" column="EARLY_LEAVE_DAYS"/>
+        <result property="holidayWorkHour" column="HOLIDAY_WORK_HOUR"/>
+        <result property="lateDays" column="LATE_DAYS"/>
+        <result property="absentDays" column="ABSENT_DAYS"/>
+        <result property="halfHolidays" column="HALF_HOLIDAYS"/>
+        <result property="Holidays" column="HOLIDAYS"/>
+        <result property="finalizeStatus" column="FINALIZE_STATUS"/>
+    </resultMap>
+
+    <select id="batchMonthAttdMgtProcess" parameterType="map" statementType="CALLABLE">
 		<![CDATA[
-        	{call P_HR_ATTENDANCE.P_CREATE_MONTH_ATTD_MANAGE(
-             #{applyYearMonth, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
-           , #{result, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=monthAttdMgtResult}
-           , #{errorCode, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
-           , #{errorMsg, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
-           )}
-    	]]>
+        {call P_HR_ATTENDANCE.P_CREATE_MONTH_ATTD_MANAGE(
+                #{applyYearMonth, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+            , #{workplaceCode, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+            , #{result, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=monthAttdMgtResult}
+            , #{errorCode, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+            , #{errorMsg, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+            )}
+        ]]>
 	</select>
-	
-	<update id="updateMonthAttdMgtList" parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.MonthAttdMgtTO">
-		UPDATE MONTH_ATTD_MANAGE SET
-		FINALIZE_STATUS = #{finalizeStatus}
-		WHERE EMP_CODE = #{empCode} 
-		AND APPLY_YEAR_MONTH = #{applyYearMonth}
-	</update>	
-	
+
+    <update id="updateMonthAttdMgtList" parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.MonthAttdMgtTO">
+        UPDATE MONTH_ATTD_MANAGE
+        SET FINALIZE_STATUS = #{finalizeStatus}
+        WHERE EMP_CODE = #{empCode}
+          AND APPLY_YEAR_MONTH = #{applyYearMonth}
+    </update>
+
 </mapper>

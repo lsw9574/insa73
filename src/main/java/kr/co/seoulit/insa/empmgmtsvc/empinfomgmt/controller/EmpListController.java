@@ -23,7 +23,7 @@ public class EmpListController {
 	ModelMap map = null;
 
 	@GetMapping("emplist")
-	public ModelMap emplist(@RequestParam String value) {
+	public ModelMap emplist(@RequestParam String value, String workplaceCode) {
 		
 		map = new ModelMap();
 		
@@ -32,7 +32,7 @@ public class EmpListController {
 			if (value != null) {
 				p_value = value;
 			}
-			ArrayList<EmpTO> list = empInfoService.findEmpList(p_value);
+			ArrayList<EmpTO> list = empInfoService.findEmpList(p_value,workplaceCode);
 			map.put("list", list);
 
 		} catch (Exception e) {

@@ -21,12 +21,12 @@ public class AttendanceApprovalController {
     ModelMap map = null;
 
     @GetMapping("attnd-approval")
-    public ModelMap findRestAttdListByDept(@RequestParam String startDate, String endDate, String deptName) {
+    public ModelMap findRestAttdListByDept(@RequestParam String startDate, String endDate, String deptName,String workplaceCode) {
 
         map = new ModelMap();
 
         try {
-            ArrayList<RestAttdTO> restAttdList = attdAppvlService.findRestAttdListByDept(deptName, startDate, endDate);
+            ArrayList<RestAttdTO> restAttdList = attdAppvlService.findRestAttdListByDept(deptName, startDate, endDate,workplaceCode);
             map.put("errorMsg", "success");
             map.put("errorCode", 0);
             map.put("restAttdList", restAttdList);

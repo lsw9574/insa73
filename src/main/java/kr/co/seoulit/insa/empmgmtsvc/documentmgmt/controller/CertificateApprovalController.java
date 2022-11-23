@@ -22,11 +22,11 @@ public class CertificateApprovalController {
     ModelMap map = null;
 
     @GetMapping("certificate-approval")
-    public ModelMap findCertificateListByDept(@RequestParam String deptName, String startDate, String endDate) {
+    public ModelMap findCertificateListByDept(@RequestParam String deptName, String startDate, String endDate,String workplaceCode) {
 
         map = new ModelMap();
         try {
-            ArrayList<CertificateTO> certificateList = documentMgmtService.findCertificateListByDept(deptName, startDate, endDate);
+            ArrayList<CertificateTO> certificateList = documentMgmtService.findCertificateListByDept(deptName, startDate, endDate,workplaceCode);
             map.put("certificateList", certificateList);
             map.put("errorMsg", "success");
             map.put("errorCode", 0);

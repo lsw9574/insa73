@@ -3,71 +3,81 @@
 
 <mapper namespace="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.mapper.EmpEvalMapper">
 
-  
-  <resultMap type="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.EmpEvalTO" id="empEvalResult">
-    <result property="empCode" column="EMP_CODE" />
-    <result property="empName" column="EMP_NAME" />
-    <result property="apply_day" column="APPLY_DAY" />
-    <result property="deptName" column="DEPT_CODE" />
-    <result property="position" column="POSITION_CODE" />
-    <result property="achievement" column="ACHIEVEMENT" />
-    <result property="ability" column="ABILITY" />
-    <result property="attitude" column="ATTITUDE" />
-    <result property="approval_Status" column="APPROVAL_STATUS" />
-    <result property="grade" column="GRADE" />
-  </resultMap>
 
-  <resultMap type="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.EmpEvalTO" id="empEvalDeptResult">
-    <result property="empCode" column="EMP_CODE" />
-    <result property="empName" column="EMP_NAME" />
-    <result property="apply_day" column="APPLY_DAY" />
-    <result property="deptName" column="DEPT_CODE" />
-    <result property="position" column="POSITION_CODE" />
-    <result property="achievement" column="ACHIEVEMENT" />
-    <result property="ability" column="ABILITY" />
-    <result property="attitude" column="ATTITUDE" />
-    <result property="approval_Status" column="APPROVAL_STATUS" />
-    <result property="grade" column="GRADE" />
-  </resultMap>
-  
-  <select id="selectEmpEval" resultMap="empEvalResult">
-  	select *from emp_eval
-  </select>
-  
-  <select id="selectEmpEvalDept" parameterType="map" resultMap="empEvalDeptResult">
-  		SELECT *FROM EMP_EVAL
-  		WHERE DEPT_CODE = #{deptName}
-  		AND APPLY_DAY = #{apply_day}
-  </select>
-  
+    <resultMap type="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.EmpEvalTO" id="empEvalResult">
+        <result property="empCode" column="EMP_CODE"/>
+        <result property="empName" column="EMP_NAME"/>
+        <result property="apply_day" column="APPLY_DAY"/>
+        <result property="deptName" column="DEPT_CODE"/>
+        <result property="position" column="POSITION_CODE"/>
+        <result property="achievement" column="ACHIEVEMENT"/>
+        <result property="ability" column="ABILITY"/>
+        <result property="attitude" column="ATTITUDE"/>
+        <result property="approval_Status" column="APPROVAL_STATUS"/>
+        <result property="grade" column="GRADE"/>
+    </resultMap>
 
-  	<update id="updateEmpEval" parameterType="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.EmpEvalTO">
-    	UPDATE EMP_EVAL SET
-    	APPROVAL_STATUS = #{approval_Status}, GRADE = #{grade}
-    	WHERE EMP_CODE = #{empCode}
-    	AND APPLY_DAY = #{apply_day}
-  	</update>
-  
-  
-  	<insert id="insertEmpEval" parameterType="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.EmpEvalTO">
-		INSERT INTO EMP_EVAL VALUES(
-		#{empCode},
-		#{empName},
-		TO_CHAR(SYSDATE, 'YYYY'),
-		#{deptName},
-		#{position},
-		#{achievement},
-		#{ability},
-		#{attitude},
-		#{approval_Status},
-		NULL)
-	</insert> 
-	
-	
-	<delete id="deleteEmpEval" parameterType="map">
-		DELETE FROM EMP_EVAL 
-		WHERE EMP_CODE = #{empCode} 
-		AND APPLY_DAY = #{apply_day}
-	</delete>
-  
+    <resultMap type="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.EmpEvalTO" id="empEvalDeptResult">
+        <result property="empCode" column="EMP_CODE"/>
+        <result property="empName" column="EMP_NAME"/>
+        <result property="apply_day" column="APPLY_DAY"/>
+        <result property="deptName" column="DEPT_CODE"/>
+        <result property="position" column="POSITION_CODE"/>
+        <result property="achievement" column="ACHIEVEMENT"/>
+        <result property="ability" column="ABILITY"/>
+        <result property="attitude" column="ATTITUDE"/>
+        <result property="approval_Status" column="APPROVAL_STATUS"/>
+        <result property="grade" column="GRADE"/>
+    </resultMap>
+
+    <select id="selectEmpEval" resultMap="empEvalResult">
+        select v.*
+        from emp_eval v,
+             emp e
+        where e.workplace_code = #{workplaceCode}
+          and e.emp_code = v.emp_code
+    </select>
+
+    <select id="selectEmpEvalDept" parameterType="map" resultMap="empEvalDeptResult">
+        SELECT V.*
+        FROM EMP_EVAL V,
+             EMP E
+        WHERE V.DEPT_CODE = #{deptName}
+          AND V.APPLY_DAY = #{apply_day}
+          AND V.EMP_CODE = E.EMP_CODE
+          AND E.WORKPLACE_CODE = #{workplaceCode}
+    </select>
+
+
+    <update id="updateEmpEval" parameterType="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.EmpEvalTO">
+        UPDATE EMP_EVAL
+        SET APPROVAL_STATUS = #{approval_Status},
+            GRADE           = #{grade}
+        WHERE EMP_CODE = #{empCode}
+          AND APPLY_DAY = #{apply_day}
+    </update>
+
+
+    <insert id="insertEmpEval" parameterType="kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.EmpEvalTO">
+        INSERT INTO EMP_EVAL
+        VALUES (#{empCode},
+                #{empName},
+                TO_CHAR(SYSDATE, 'YYYY'),
+                #{deptName},
+                #{position},
+                #{achievement},
+                #{ability},
+                #{attitude},
+                #{approval_Status},
+                NULL)
+    </insert>
+
+
+    <delete id="deleteEmpEval" parameterType="map">
+        DELETE
+        FROM EMP_EVAL
+        WHERE EMP_CODE = #{empCode}
+          AND APPLY_DAY = #{apply_day}
+    </delete>
+
 </mapper>

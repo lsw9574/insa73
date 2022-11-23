@@ -50,7 +50,7 @@
                             .ajax({
                                 url: "${pageContext.request.contextPath}/empinfomgmt/emplist",
                                 data: {
-                                    "value": value
+                                    "value": value, "workplaceCode":"${sessionScope.workplaceCode}"
                                     //전체부서/회계팀/인사팀/전산팀
                                 },
                                 dataType: "json",
@@ -554,8 +554,8 @@
                             .ajax({
                                 type: "PUT",
                                 url: "${pageContext.request.contextPath}/empinfomgmt/empdetail/empcode",
-                                data : sendData,
-                                contentType:"application/json",
+                                data: sendData,
+                                contentType: "application/json",
                                 dataType: "json",
                                 success: function (data) {
                                     if (data.errorCode < 0) {
@@ -653,8 +653,8 @@
                             .ajax({
                                 type: "DELETE",
                                 url: "${pageContext.request.contextPath}/empinfomgmt/empdetail/empcode",
-                                data : sendData,
-                                contentType:"application/json",
+                                data: sendData,
+                                contentType: "application/json",
                                 dataType: "json",
                                 success: function (data) {
                                     if (data.errorCode < 0) {
@@ -680,8 +680,8 @@
                             .ajax({
                                 type: "DELETE",
                                 url: "${pageContext.request.contextPath}/empinfomgmt/empdetail/empcode",
-                                data : sendData,
-                                contentType:"application/json",
+                                data: sendData,
+                                contentType: "application/json",
                                 dataType: "json",
                                 success: function (data) {
                                     if (data.errorCode < 0) {

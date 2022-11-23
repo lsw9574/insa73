@@ -22,12 +22,12 @@ public class DailyAttendanceMgtController {
     ModelMap map = null;
 
     @GetMapping("day-attnd")
-    public ModelMap findDayAttdMgtList(@RequestParam String applyDay) {
+    public ModelMap findDayAttdMgtList(@RequestParam String applyDay,String workplaceCode) {
 
         map = new ModelMap();
 
         try {
-            ArrayList<DayAttdMgtTO> dayAttdMgtList = attdAppvlService.findDayAttdMgtList(applyDay);
+            ArrayList<DayAttdMgtTO> dayAttdMgtList = attdAppvlService.findDayAttdMgtList(applyDay,workplaceCode);
             map.put("dayAttdMgtList", dayAttdMgtList);
             map.put("errorMsg", "success");
             map.put("errorCode", 0);

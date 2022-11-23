@@ -2,60 +2,65 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.seoulit.insa.attdsvc.attdappvl.mapper.AnnualVacationMgtMapper">
-	
-	
-	<resultMap type="kr.co.seoulit.insa.attdsvc.attdappvl.to.AnnualLeaveMgtTO" id="annualLeaveMgtResult">
-		<result property="empCode" column="EMP_CODE" />
-		<result property="applyYearMonth" column="APPLY_YEAR_MONTH" />
-		<result property="afternoonOff" column="AFTERNOON_OFF" />
-		<result property="monthlyLeave" column="MONTHLY_LEAVE" />
-		<result property="remainingHoliday" column="REMAINING_HOLIDAY" />
-		<result property="finalizeStatus" column="FINALIZE_STATUS" />
-		<result property="empName" column="EMP_NAME" />
-	</resultMap>
-	
-	
-   	<select id="batchAnnualVacationMgtProcess" parameterType="map" statementType="CALLABLE">
+
+
+    <resultMap type="kr.co.seoulit.insa.attdsvc.attdappvl.to.AnnualLeaveMgtTO" id="annualLeaveMgtResult">
+        <result property="empCode" column="EMP_CODE"/>
+        <result property="applyYearMonth" column="APPLY_YEAR_MONTH"/>
+        <result property="afternoonOff" column="AFTERNOON_OFF"/>
+        <result property="monthlyLeave" column="MONTHLY_LEAVE"/>
+        <result property="remainingHoliday" column="REMAINING_HOLIDAY"/>
+        <result property="finalizeStatus" column="FINALIZE_STATUS"/>
+        <result property="empName" column="EMP_NAME"/>
+    </resultMap>
+
+
+    <select id="batchAnnualVacationMgtProcess" parameterType="map" statementType="CALLABLE">
 		<![CDATA[
-        	{call P_HR_VACATION.P_CREATE_ANNUAL_VACATION(
-        		 #{applyYearMonth, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN}
-        		,#{result, jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT, resultMap = annualLeaveMgtResult}
-        		,#{errorCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT}
-        		,#{errorMsg, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT}
-        	)}
-    	]]>
+        {call P_HR_VACATION.P_CREATE_ANNUAL_VACATION(
+                #{applyYearMonth, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN}
+            , #{workplaceCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN}
+            , #{result, jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT, resultMap = annualLeaveMgtResult}
+            , #{errorCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT}
+            , #{errorMsg, jdbcType=VARCHAR, javaType=java.lang.String, mode=OUT}
+            )}
+        ]]>
 	</select>
-	
-	
-	<update id="updateAnnualVacationMgtList"
-	 parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.AnnualLeaveMgtTO">
-		UPDATE ANNUAL_VACATION_MANAGE SET 
-		FINALIZE_STATUS = #finalizeStatus#, REMAINING_HOLIDAY = #remainingHoliday#
-		WHERE EMP_CODE = #{empCode} AND APPLY_YEAR_MONTH = #{applyYearMonth}
-	</update>
-	
-	
-	<update id="cancelAnnualVacationMgtList"
-	 parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.AnnualLeaveMgtTO">
-		UPDATE ANNUAL_VACATION_MANAGE SET
-		FINALIZE_STATUS = #{finalizeStatus} , REMAINING_HOLIDAY = #{remainingVacation}
-		WHERE EMP_CODE = #{empCode} AND APPLY_YEAR_MONTH = #{applyYearMonth}
-	</update>
-	
-	
-	<update id="cancelAnnualVacationList"
-	 parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.AnnualLeaveMgtTO">
-		UPDATE ANNUAL_VACATION SET
-		REMAINING_VACATION = #{remainingVacation}
-		WHERE EMP_CODE = #{empCode} AND YEAR = #{year} 
-	</update>
-	
-	<update id="updateAnnualVacationList"
-	 parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.AnnualLeaveMgtTO">
-		UPDATE ANNUAL_VACATION SET
-		remaining_vacation = #{remainingVacation}
-		WHERE EMP_CODE = #{empCode} AND year = #{applyYearMonth} 
-	</update>
-	
-	
+
+
+    <update id="updateAnnualVacationMgtList"
+            parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.AnnualLeaveMgtTO">
+        UPDATE ANNUAL_VACATION_MANAGE
+        SET FINALIZE_STATUS   = #finalizeStatus#,
+            REMAINING_HOLIDAY = #remainingHoliday#
+        WHERE EMP_CODE = #{empCode}
+          AND APPLY_YEAR_MONTH = #{applyYearMonth}
+    </update>
+
+
+    <update id="cancelAnnualVacationMgtList"
+            parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.AnnualLeaveMgtTO">
+        UPDATE ANNUAL_VACATION_MANAGE
+        SET FINALIZE_STATUS   = #{finalizeStatus},
+            REMAINING_HOLIDAY = #{remainingVacation}
+        WHERE EMP_CODE = #{empCode}
+          AND APPLY_YEAR_MONTH = #{applyYearMonth}
+    </update>
+
+
+    <update id="cancelAnnualVacationList"
+            parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.AnnualLeaveMgtTO">
+        UPDATE ANNUAL_VACATION
+        SET REMAINING_VACATION = #{remainingVacation}
+        WHERE EMP_CODE = #{empCode} AND YEAR = #{year}
+    </update>
+
+    <update id="updateAnnualVacationList"
+            parameterType="kr.co.seoulit.insa.attdsvc.attdappvl.to.AnnualLeaveMgtTO">
+        UPDATE ANNUAL_VACATION
+        SET remaining_vacation = #{remainingVacation}
+        WHERE EMP_CODE = #{empCode} AND year = #{applyYearMonth}
+    </update>
+
+
 </mapper>

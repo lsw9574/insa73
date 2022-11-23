@@ -64,7 +64,7 @@
                 url: "${pageContext.request.contextPath}/attdappvl/day-attnd",
                 data: {
                     "applyDay": searchDay, 		   // 조회일자
-                    "dept": "${sessionScope.dept}"    // 부서 (수정예정)
+                    "workplaceCode":"${sessionScope.workplaceCode}"
                 },
                 dataType: "json",
                 success: function (data) {

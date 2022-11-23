@@ -89,7 +89,8 @@
                 .ajax({
                     url: "${pageContext.request.contextPath}/attdappvl/annual-leaveMgt",
                     data: {
-                        "applyYearMonth": date
+                        "applyYearMonth": date,
+                        "workplaceCode":"${sessionScope.workplaceCode}"
                     },
                     dataType: "json",
                     success: function (data) {

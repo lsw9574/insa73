@@ -303,7 +303,8 @@
             $.ajax({
                 url: '${pageContext.request.contextPath}/empinfomgmt/emplist',
                 data: {
-                    "value": "전체부서"
+                    "value": "전체부서",
+                    "workplaceCode":"${sessionScope.workplaceCode}"
                     //전체부서/회계팀/인사팀/전산팀
                 },
                 dataType: "json",

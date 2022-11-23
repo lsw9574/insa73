@@ -14,7 +14,7 @@ public interface ProofCertificateMapper{
 	public  ArrayList<proofTO> selectProofCertificateList(HashMap<String, String> map);
 	public void deleteProof(proofTO proof);
 	public ArrayList<proofTO> selectProofListByDept(HashMap<String, String> map);
-	public ArrayList<proofTO> selectProofListByAllDept(String startDate);
+	public ArrayList<proofTO> selectProofListByAllDept(String startDate,String workplaceCode);
 	public void updateProof(proofTO proof);
 	public void updateProofImg(HashMap<String, String> map);
 	

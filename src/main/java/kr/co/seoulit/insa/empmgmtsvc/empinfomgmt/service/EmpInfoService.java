@@ -9,15 +9,15 @@ public interface EmpInfoService {
 	public EmpTO getEmp(String name); //selectEmp
 	public String findLastEmpCode();
 	public EmpTO findAllEmpInfo(String empCode);	
-	public ArrayList<EmpTO> findEmpList(String dept); //findEmployeeListByDept
+	public ArrayList<EmpTO> findEmpList(String dept,String workplaceCode); //findEmployeeListByDept
 	public void registEmployee(EmpTO empto);
 	public void modifyEmployee(EmpTO emp);
 	public void deleteEmpList(ArrayList<EmpTO> empList);
 	public ArrayList<DeptTO> findDeptList();
 	
 	public void registEmpEval(EmpEvalTO empevalto);
-	public ArrayList<EmpEvalTO> findEmpEval();
-	public ArrayList<EmpEvalTO> findEmpEval(String dept, String year);
+	public ArrayList<EmpEvalTO> findEmpEval(String workplaceCode);
+	public ArrayList<EmpEvalTO> findEmpEval(String dept, String year,String workplaceCode);
 	public void removeEmpEvalList(String emp_code , String apply_day);
 	
 	public void modifyEmpEvalList(ArrayList<EmpEvalTO> empevalList);

@@ -43,8 +43,9 @@
                             .ajax({
                                 url: "${pageContext.request.contextPath}/empinfomgmt/emplist",
                                 data: {
-                                    "value": value
+                                    "value": value,
                                     //전체부서/회계팀/인사팀/전산팀
+                                    "workplaceCode":"${sessionScope.workplaceCode}"
                                 },
                                 dataType: "json",
                                 success: function (data) {//data = {"list":[{empName:"이희애","empCode":"12345"},{empName:"a",empCode:"23456"}]}

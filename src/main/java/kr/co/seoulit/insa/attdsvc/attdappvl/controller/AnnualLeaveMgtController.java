@@ -23,11 +23,11 @@ public class AnnualLeaveMgtController {
     ModelMap map = null;
 
     @GetMapping("annual-leaveMgt")
-    public ModelMap findAnnualVacationMgtList(@RequestParam String applyYearMonth) {
+    public ModelMap findAnnualVacationMgtList(@RequestParam String applyYearMonth,String workplaceCode) {
         map = new ModelMap();
         try {
 
-            ArrayList<AnnualLeaveMgtTO> annualVacationMgtList = attdAppvlService.findAnnualVacationMgtList(applyYearMonth);
+            ArrayList<AnnualLeaveMgtTO> annualVacationMgtList = attdAppvlService.findAnnualVacationMgtList(applyYearMonth,workplaceCode);
 
             map.put("annualVacationMgtList", annualVacationMgtList);
             map.put("errorMsg", "success");

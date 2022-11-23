@@ -64,7 +64,7 @@ public class CommonAspect {  //한개로 다 만들기!!! 원장님요구
 
 
     //조인포인트 설정  <log 찍음>
-    @Around("execution(* kr..service.*.*(..)) or execution(* kr..mapper.*.*(..))")
+    @Around("execution(* kr..service.*.*(..)) || execution(* kr..mapper.*.*(..))")
     public Object logPrint(ProceedingJoinPoint joinPoint) throws Throwable {
         String type = "";
         String name = joinPoint.getSignature().getDeclaringTypeName();

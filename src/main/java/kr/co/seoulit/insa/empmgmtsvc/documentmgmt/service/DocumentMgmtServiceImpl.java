@@ -50,15 +50,16 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 	}
 
 	@Override
-	public ArrayList<CertificateTO> findCertificateListByDept(String deptName, String startDate, String endDate) {
+	public ArrayList<CertificateTO> findCertificateListByDept(String deptName, String startDate, String endDate,String workplaceCode) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("deptName", deptName);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		map.put("workplaceCode",workplaceCode);
 		
 		ArrayList<CertificateTO> certificateList = null;
 			if (deptName.equals("모든부서")) {
-				certificateList = certificateMapper.selectCertificateListByAllDept(startDate);
+				certificateList = certificateMapper.selectCertificateListByAllDept(startDate,workplaceCode);
 			} else {
 				certificateList = certificateMapper.selectCertificateListByDept(map);
 			}
@@ -86,12 +87,13 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 	}
 
 	@Override
-	public ArrayList<proofTO> proofLookupList(String empCode, String Code, String startDate, String endDate) {
+	public ArrayList<proofTO> proofLookupList(String empCode, String Code, String startDate, String endDate,String workplaceCode) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("empCode", empCode);
 		map.put("proofTypeCode", Code);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		map.put("workplaceCode", workplaceCode);
 		ArrayList<proofTO> proofLookupList=null;
 		
 		proofLookupList = proofCertificateMapper.selectProofCertificateList(map);
@@ -109,15 +111,16 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 	}
 
 	@Override
-	public ArrayList<proofTO> findProofListByDept(String deptName, String startDate, String endDate) {
+	public ArrayList<proofTO> findProofListByDept(String deptName, String startDate, String endDate,String workplaceCode) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("deptName", deptName);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		map.put("workplaceCode", workplaceCode);
 		ArrayList<proofTO> proofList = null;
 		
 		if (deptName.equals("모든부서")) {
-			proofList = proofCertificateMapper.selectProofListByAllDept(startDate);
+			proofList = proofCertificateMapper.selectProofListByAllDept(startDate,workplaceCode);
 		} else {
 			proofList = proofCertificateMapper.selectProofListByDept(map);
 		}

@@ -353,7 +353,7 @@
                     <td><input type="text"
                                class="ui-button ui-widget ui-corner-all"
                                value="${sessionScope.id}" readonly> <input type="hidden"
-                                                                           id="employmentEmpCode" value="${ssesionScope.code}"></td>
+                                                                           id="employmentEmpCode" value="${sessionScope.code}"></td>
                     <td>부서</td>
                     <td><input type="text" id="deptName"
                                class="ui-button ui-widget ui-corner-all" value="${emp.deptName}"

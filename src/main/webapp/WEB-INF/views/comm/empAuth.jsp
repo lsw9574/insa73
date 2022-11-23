@@ -43,8 +43,9 @@ section .section-title {
       $.ajax({
          url:'${pageContext.request.contextPath}/empinfomgmt/emplist',
          data: {
-            "value": "전체부서"
+            "value": "전체부서",
             //전체부서/회계팀/인사팀/전산팀
+            "workplaceCode":"${sessionScope.workplaceCode}"
          },
          dataType:"json",
          success : function(data){

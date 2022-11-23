@@ -85,6 +85,7 @@
           AND E.DEPT_CODE = D.DEPT_CODE(+)
           AND C.USAGE_CODE = DD.DETAIL_CODE_NUMBER(+)
           AND REQUEST_DATE = TO_DATE(#{requestDate}, 'yyyy-mm-dd')
+          AND E.WORKPLACE_CODE = #{workplaceCode}
     </select>
 
 
@@ -109,6 +110,7 @@
           AND D.DEPT_NAME = #{deptName}
           AND REQUEST_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD')
             AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+          AND E.WORKPLACE_CODE = #{workplaceCode}
     </select>
 
 

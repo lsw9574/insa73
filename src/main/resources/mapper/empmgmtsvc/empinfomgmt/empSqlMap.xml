@@ -97,11 +97,12 @@
         <parameter property="hobong" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
         <parameter property="occupation" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
         <parameter property="employment" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+        <parameter property="workplaceCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
     </parameterMap>
 
     <select id="registEmployee" parameterMap="empInsertParameter" statementType="CALLABLE">
       <![CDATA[
-        {call P_INSERT_EMP(?,?,TO_DATE(?,'RRRR/MM/DD'),?,?,?,?,?,?,?,?,?,?,?,?,?)}
+        {call P_INSERT_EMP(?,?,TO_DATE(?,'RRRR/MM/DD'),?,?,?,?,?,?,?,?,?,?,?,?,?,?)}
         ]]>
    </select>
 
@@ -125,6 +126,7 @@
         WHERE 1=1
           AND E.POSITION_CODE = PD.POSITION_CODE(+)
           AND E.DEPT_CODE = PD.DEPT_CODE(+)
+        AND E.WORKPLACE_CODE = #{workplaceCode}
         ORDER BY E.EMP_CODE
     </select>
 
@@ -149,6 +151,7 @@
           AND E.POSITION_CODE = PD.POSITION_CODE(+)
           AND E.DEPT_CODE = PD.DEPT_CODE(+)
           AND PD.DEPT_NAME = #{dept}
+          AND E.WORKPLACE_CODE = #{workplaceCode}
         ORDER BY E.EMP_CODE
     </select>
 
@@ -173,6 +176,7 @@
           AND E.POSITION_CODE = PD.POSITION_CODE(+)
           AND E.DEPT_CODE = PD.DEPT_CODE(+)
           AND E.EMP_NAME = #{name}
+          AND E.WORKPLACE_CODE = #{workplaceCode}
         ORDER BY E.EMP_CODE
     </select>
 

@@ -125,6 +125,7 @@
                 data: {
                     "deptName": deptName,
                     "year": year,
+                    "workplaceCode":"${sessionScope.workplaceCode}"
                 },
                 dataType: "json",
                 success: function (data) {

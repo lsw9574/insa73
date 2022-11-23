@@ -88,6 +88,7 @@ section .section-title {
 						"deptName" : deptName,
 						"startDate" : startDate,
 						"endDate" : endDate,
+						"workplaceCode":"${sessionScope.workplaceCode}"
 					},
 					dataType : "json",
 					success : function(data) {

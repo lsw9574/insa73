@@ -22,13 +22,13 @@ public class ProofApprovalController {
     ModelMap map = null;
 
     @GetMapping("proof-approval")
-    public ModelMap findProofAttdListByDept(@RequestParam String startDate, String endDate, String deptName) {
+    public ModelMap findProofAttdListByDept(@RequestParam String startDate, String endDate, String deptName,String workplaceCode) {
 
         map = new ModelMap();
 
         try {
 
-            ArrayList<proofTO> proofAttdList = documentMgmtService.findProofListByDept(deptName, startDate, endDate);
+            ArrayList<proofTO> proofAttdList = documentMgmtService.findProofListByDept(deptName, startDate, endDate,workplaceCode);
             map.put("errorMsg", "success");
             map.put("errorCode", 0);
             map.put("proofAttdList", proofAttdList);

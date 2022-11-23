@@ -86,7 +86,7 @@
 		function makeEmpList(grid, value) {
 			$.ajax({
 				url: "${pageContext.request.contextPath}/empinfomgmt/emplist",
-				data: {"value": value},         //전체부서/회계팀/인사팀/전산팀
+				data: {"value": value,"workplaceCode":"${sessionScope.workplaceCode}"},         //전체부서/회계팀/인사팀/전산팀
 				dataType: "json",
 				success: function (data) {
 					if (data.errorCode < 0) { //erroe code는 컨트롤러에서 날려보냄
