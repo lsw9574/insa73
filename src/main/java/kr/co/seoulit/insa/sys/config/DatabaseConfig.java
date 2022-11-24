@@ -25,10 +25,14 @@ public class DatabaseConfig {
 		sessionFactory.getConfiguration().setJdbcTypeForNull(JdbcType.NULL);
 		return sessionFactory;
 	}
- 
+
 	@Bean
 	public SqlSessionTemplate sqlSession(SqlSessionFactory sqlSessionFactory) {
-		return new SqlSessionTemplate(sqlSessionFactory);
+		SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
+
+		sqlSessionTemplate.getConfiguration().setMapUnderscoreToCamelCase(true);
+
+		return sqlSessionTemplate;
 	}
 	
 }
