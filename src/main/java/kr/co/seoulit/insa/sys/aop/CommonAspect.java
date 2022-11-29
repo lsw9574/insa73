@@ -68,7 +68,6 @@ public class CommonAspect {  //한개로 다 만들기!!! 원장님요구
             return joinPoint.proceed();
         } catch (Exception e) {
             ModelMap map = new ModelMap();
-            map.clear();
             map.put("errorCode", -1);
             map.put("errorMsg", e.getMessage());
             return map;
