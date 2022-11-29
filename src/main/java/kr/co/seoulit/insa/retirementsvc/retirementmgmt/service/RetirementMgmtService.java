@@ -20,7 +20,7 @@ public interface RetirementMgmtService {
 
     public ArrayList<RetirementPersonTO> findRetirementList(String empCode, String startDate, String endDate);
 
-    public ResultTO retirementApply(RetirementPersonTO retirementPersonTO);
+    public ResultTO modifyRetirementApply(RetirementPersonTO retirementPersonTO);
 
-    public HashMap<String, String> registRetirementReceipt(String empCode);
+    public HashMap<String, String> registerRetirementReceipt(String empCode);
 }

@@ -62,11 +62,11 @@ public class RetirementMgmtServiceImpl implements RetirementMgmtService {
     }
 
     @Override
-    public ResultTO retirementApply(RetirementPersonTO retirementPersonTO) {
+    public ResultTO modifyRetirementApply(RetirementPersonTO retirementPersonTO) {
         HashMap<String, String> map = new HashMap<>();
         map.put("empCode", retirementPersonTO.getEmpCode());
         map.put("retirementDate", retirementPersonTO.getRetirementDate());
-        retirementReceiptMapper.updateWorkInfo(map);
+        retirementReceiptMapper.updateRetirementApply(map);
 
         ResultTO resultTO = new ResultTO();
         resultTO.setErrorCode(map.get("errorCode"));
@@ -77,7 +77,7 @@ public class RetirementMgmtServiceImpl implements RetirementMgmtService {
     }
 
     @Override
-    public HashMap<String, String> registRetirementReceipt(String empCode) {
+    public HashMap<String, String> registerRetirementReceipt(String empCode) {
         HashMap<String, String> map = new HashMap<>();
         map.put("empCode", empCode);
         System.out.println("영수증임플:" + empCode);

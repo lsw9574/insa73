@@ -83,7 +83,7 @@
             AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
         ]]>
     </select>
-    <update id="updateWorkInfo" parameterType="map" statementType="CALLABLE">
+    <update id="updateRetirementApply" parameterType="map" statementType="CALLABLE">
 		        <![CDATA[
         {call P_UPDATE_RETIREMENT_DATE(
                 #{empCode, jdbcType=VARCHAR, javaType=java.lang.String, mode=IN}

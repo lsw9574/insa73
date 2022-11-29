@@ -86,7 +86,7 @@
         function registRetirementReceipt() {
             $.ajax({
                 type: "POST",
-                url: "${pageContext.request.contextPath}/retirementmgmt/registRetirementReceipt",
+                url: "${pageContext.request.contextPath}/retirementmgmt/registerRetirementReceipt",
                 data: { "empCode": empCode },
                 dataType: 'json',
                 success: function (data) {
@@ -111,7 +111,7 @@
             };
             $.ajax({
                 type: "PUT",
-                url: "${pageContext.request.contextPath}/retirementmgmt/retirementApply",
+                url: "${pageContext.request.contextPath}/retirementmgmt/modifyRetirementApply",
                 data: JSON.stringify(sendData),
                 contentType: "application/json",
                 dataType: 'json',
@@ -140,7 +140,7 @@
             var endVar = $("#search_endDate").val(); //종료날짜
 
             $.ajax({
-                url: "${pageContext.request.contextPath}/retirementmgmt/retirementReceiptlist",
+                url: "${pageContext.request.contextPath}/retirementmgmt/findRetirementReceiptlist",
                 data: {
                     "empCode": empCode,
                     "startDate": startVar,

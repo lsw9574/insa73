@@ -19,33 +19,19 @@ public class RetirementSetMgmtController {
     @GetMapping("retirementmgmt")
     public ModelMap findRetirementSetMgmtDetail() {
         map = new ModelMap();
-        try {
-            ArrayList<RetirementSetMgmtTO> retirementSetMgmtList = retirementMgmtService.findRetirementSetMgmtDetail();
-            map.put("retirementMgmt", retirementSetMgmtList);
-            map.put("errorMsg", "success");
-            map.put("errorCode", 0);
-
-        } catch (Exception dae) {
-            map.clear();
-            map.put("errorCode", -1);
-            map.put("errorMsg", dae.getMessage());
-        }
+        ArrayList<RetirementSetMgmtTO> retirementSetMgmtList = retirementMgmtService.findRetirementSetMgmtDetail();
+        map.put("retirementMgmt", retirementSetMgmtList);
+        map.put("errorMsg", "success");
+        map.put("errorCode", 0);
         return map;
     }
 
     @PutMapping("retirementmgmt")
     public ModelMap modifyRetirementSetMgmt(@RequestBody RetirementSetMgmtTO retirementSetMgmtTO) {
         map = new ModelMap();
-        try {
-            retirementMgmtService.modifyRetirementSetMgmt(retirementSetMgmtTO);
-            map.put("errorMsg", "success");
-            map.put("errorCode", 0);
-
-        } catch (Exception dae) {
-            map.clear();
-            map.put("errorCode", -1);
-            map.put("errorMsg", dae.getMessage());
-        }
+        retirementMgmtService.modifyRetirementSetMgmt(retirementSetMgmtTO);
+        map.put("errorMsg", "success");
+        map.put("errorCode", 0);
         return map;
     }
 }

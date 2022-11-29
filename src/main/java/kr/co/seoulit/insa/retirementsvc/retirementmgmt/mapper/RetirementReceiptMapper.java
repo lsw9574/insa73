@@ -13,7 +13,7 @@ public interface RetirementReceiptMapper {
 
     public ArrayList<RetirementPersonTO> selectRetirementList(String empCode, String startDate, String endDate);
 
-    public void updateWorkInfo(HashMap<String, String> map);
+    public void updateRetirementApply(HashMap<String, String> map);
 
     public void insertRetirementReceipt(HashMap<String, String> map);
 }

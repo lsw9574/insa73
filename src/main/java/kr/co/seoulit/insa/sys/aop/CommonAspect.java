@@ -1,21 +1,21 @@
 package kr.co.seoulit.insa.sys.aop;
 
 
-import javax.servlet.http.HttpServletRequest;
-
+import kr.co.seoulit.insa.commsvc.systemmgmt.exception.IdNotFoundException;
+import kr.co.seoulit.insa.commsvc.systemmgmt.exception.PwMissMatchException;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.seoulit.insa.commsvc.systemmgmt.exception.IdNotFoundException;
-import kr.co.seoulit.insa.commsvc.systemmgmt.exception.PwMissMatchException;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 @Slf4j
@@ -26,40 +26,53 @@ public class CommonAspect {  //한개로 다 만들기!!! 원장님요구
 //https://github.com/tintoll/StartSpringBoot/blob/master/spring_boot_start.md	
 
     //exception 잡는놈들
-    @org.springframework.web.bind.annotation.ExceptionHandler(IdNotFoundException.class)
-    public ModelAndView idNotFoundExceptionHandler(HttpServletRequest request, IdNotFoundException e) {
-        ModelAndView mv = new ModelAndView("/loginForm");
-        mv.addObject("errorCode", -1);
-        mv.addObject("errorMsg", e.getMessage());
-        System.out.println("#######################IdNotFoundException#################1");
+//    @org.springframework.web.bind.annotation.ExceptionHandler(IdNotFoundException.class)
+//    public ModelAndView idNotFoundExceptionHandler(HttpServletRequest request, IdNotFoundException e) {
+//        ModelAndView mv = new ModelAndView("/loginForm");
+//        mv.addObject("errorCode", -1);
+//        mv.addObject("errorMsg", e.getMessage());
+//        System.out.println("#######################IdNotFoundException#################1");
+//
+//        //log.error("Request: " + request.getRequestURL() +"\n"+ " raised " + e);
+//
+//        return mv;
+//    }
+//
+//    @org.springframework.web.bind.annotation.ExceptionHandler(PwMissMatchException.class)
+//    public ModelAndView pwMissMatchException(HttpServletRequest request, PwMissMatchException e) {
+//        ModelAndView mv = new ModelAndView("/loginForm");
+//        mv.addObject("errorCode", -1);
+//        mv.addObject("errorMsg", e.getMessage());
+//        System.out.println("#######################PwMissMatchException#################1");
+//        //log.error("Request: " + request.getRequestURL() +"\n"+ " raised " + e);
+//        return mv;
+//    }
+//
+//
+//    @ExceptionHandler
+//    public ModelMap defaultExceptionHandler(HttpServletRequest request, Exception exception) {
+//
+//        ModelMap map = new ModelMap();
+//
+//        map.put("errorCode", -1);
+//        map.put("errorMsg", exception.getMessage());
+//
+//        //log.error("defaultExceptionHandler", exception);
+//
+//        return map;
+//    }
 
-        //log.error("Request: " + request.getRequestURL() +"\n"+ " raised " + e);
-
-        return mv;
-    }
-
-    @org.springframework.web.bind.annotation.ExceptionHandler(PwMissMatchException.class)
-    public ModelAndView pwMissMatchException(HttpServletRequest request, PwMissMatchException e) {
-        ModelAndView mv = new ModelAndView("/loginForm");
-        mv.addObject("errorCode", -1);
-        mv.addObject("errorMsg", e.getMessage());
-        System.out.println("#######################PwMissMatchException#################1");
-        //log.error("Request: " + request.getRequestURL() +"\n"+ " raised " + e);
-        return mv;
-    }
-
-
-    @ExceptionHandler
-    public ModelMap defaultExceptionHandler(HttpServletRequest request, Exception exception) {
-
-        ModelMap map = new ModelMap();
-
-        map.put("errorCode", -1);
-        map.put("errorMsg", exception.getMessage());
-
-        //log.error("defaultExceptionHandler", exception);
-
-        return map;
+    @Around("execution(* kr..controller.*.*(..))")
+    public Object controllerExceptionHandler(ProceedingJoinPoint joinPoint) throws Throwable {
+        try {
+            return joinPoint.proceed();
+        } catch (Exception e) {
+            ModelMap map = new ModelMap();
+            map.clear();
+            map.put("errorCode", -1);
+            map.put("errorMsg", e.getMessage());
+            return map;
+        }
     }
 
 
