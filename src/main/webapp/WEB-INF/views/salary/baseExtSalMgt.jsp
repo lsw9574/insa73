@@ -16,7 +16,6 @@
         }
 
         #tabs {
-            background: #333333;
             color: #eee;
             background-color: rgba(051, 051, 051, 0.8);
         }
