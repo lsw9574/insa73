@@ -317,7 +317,7 @@
 			</textField>
 			<image>
 				<reportElement x="341" y="650" width="47" height="49" uuid="a40f2b5b-8b1e-46d4-8e33-86e470d9a01b"/>
-				<imageExpression><![CDATA["C:\\Users\\lsw95\\project\\insa73\\src\\main\\webapp\\report\\KakaoTalk_20181107_092023166.png"]]></imageExpression>
+				<imageExpression><![CDATA["C:\\Users\\lsw95\\project\\git\\insa73\\src\\main\\webapp\\report\\KakaoTalk_20181107_092023166.png"]]></imageExpression>
 			</image>
 		</band>
 	</detail>
